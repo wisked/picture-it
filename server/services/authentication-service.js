@@ -31,7 +31,8 @@ module.exports.register = function(req, res) {
             req.session._id = response._doc._id;
             req.session.token = token;
             sendJSONresponse(res, 200, {
-                "token": token
+                "token": token,
+                "userIsAdmin": user.isAdmin
             });
         }
     });
@@ -67,13 +68,16 @@ module.exports.login = function(req, res) {
 module.exports.update = function(req, res) {
     User.update({
         "_id": req.session._id
-    }, {"profileIsVisible": req.body.profile}, (err, response) => {
-            if (err) {
-                return handleError(err)
-            }
-            res.status(200).json({message: response})
+    }, {
+        "profileIsVisible": req.body.profile
+    }, (err, response) => {
+        if (err) {
+            return handleError(err)
         }
-    )
+        res.status(200).json({
+            message: response
+        })
+    })
 }
 
 module.exports.delete = function(req, res) {
@@ -83,10 +87,37 @@ module.exports.delete = function(req, res) {
         if (err) {
             return handleError(err)
         } else
-            res.status(200).json({'message' : 'success'})
+            res.status(200).json({
+                'message': 'success'
+            })
     })
+}
+module.exports.getUsers = function(req, res) {
+    User.find({}, function(err, users) {
+        var userMap = {};
+
+        users.forEach(function(user) {
+            userMap[user._id] = user;
+        });
+        if (err) {
+            return handleError(err)
+        }
+        else {
+            res.status(200).json({
+                'users': userMap
+            })
+        }
+    });
 }
 
 function handleError(err) {
     console.log(err)
 }
+
+// const createAdmin = () => {
+//     User.findOneAndUpdate({"isAdmin": true}, {
+//         local.name: 'admin',
+//         local.email: 'ad@ad',
+//
+//     })
+// }
