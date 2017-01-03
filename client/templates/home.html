@@ -18,3 +18,11 @@
         accept="image/*"
         ngf-pattern="'image/*'">Drop images here or click to upload</div>
 </div>
+
+<div class="container" ng-if="usersList.length">
+    <div class="row">
+        <div ng-repeat="user in usersList">
+            <h3>{{user}}</h3>
+        </div>
+    </div>
+</div>

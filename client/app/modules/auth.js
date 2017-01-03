@@ -12,7 +12,6 @@ angular.module('app.auth', [])
             password: password,
 
         })
-        console.log(res)
         window.localStorage['jwt'] = angular.toJson(res.data.token)
     }
 
@@ -22,9 +21,9 @@ angular.module('app.auth', [])
             password: password
         })
         auth.user = res.user;
-        console.log(res);
+        auth.user = { userIsAdmin: res.data.userIsAdmin}
         window.localStorage['jwt'] = angular.toJson(res.data.token);
-        window.localStorage['isAdmin'] = angular.toJson()
+        window.localStorage['isAdmin'] = angular.toJson(res.data.userIsAdmin)
     }
 
     auth.isAuthenticated = function () {

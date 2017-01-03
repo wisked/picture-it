@@ -3,8 +3,8 @@ angular.module('app.home', ['ngFileUpload'])
 .controller('homeCtrl', function($scope, $stateParams, $http, Upload, AuthService) {
     $scope.methods = {};
     $scope.images = [];
-    console.log(AuthService.user);
-
+    $scope.usersList = [];
+    let userIsAdmin = window.localStorage['userIsAdmin'];
 
     $scope.$watch('file', function () {
         if ($scope.file != null) {
@@ -15,7 +15,14 @@ angular.module('app.home', ['ngFileUpload'])
                 });
         }
     });
-
+    if (userIsAdmin) {
+        $http.get('/users-list')
+            .then(res => {
+                if (res.status == 200) {
+                    $scope.usersList.push({user: res.data})
+                }
+            })
+    }
     $http.get('/images')
         .then(images => {
             images.data.forEach(img => {
