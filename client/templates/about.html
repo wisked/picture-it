@@ -1,0 +1,11 @@
+<form>
+    <label for="profile">Set profile visible</label>
+    <input type="checkbox" name="profile" ng-model="profileIsVisible" ng-change="change()">
+</form>
+
+<div class="row">
+    <div ng-repeat="src in images">
+        <img ng-src="{{src.url}}"/>
+        <span ng-click="delete(src.url)">x</span>
+    </div>
+</div>
