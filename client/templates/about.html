@@ -2,10 +2,12 @@
     <label for="profile">Set profile visible</label>
     <input type="checkbox" name="profile" ng-model="profileIsVisible" ng-change="change()">
 </form>
+<div class="gallery">
+        <div ng-repeat="src in images" class="img-container">
+            <figure>
+                <img ng-src="{{src.url}}"/>
+                <a href=""><span ng-click="delete(src.url)" class="glyphicon glyphicon-remove"></span></a>
+            </figure>
+        </div>
 
-<div class="row">
-    <div ng-repeat="src in images">
-        <img ng-src="{{src.url}}"/>
-        <span ng-click="delete(src.url)">x</span>
-    </div>
 </div>

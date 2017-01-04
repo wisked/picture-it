@@ -7,7 +7,26 @@ const sendJSONresponse = function(res, status, content) {
     res.status(status);
     res.json(content);
 };
-
+// const createAdmin = () => {
+//     User.findOneAndUpdate({"isAdmin": true}, {
+//         local.name: 'admin',
+//         local.email: 'ad@ad',
+//         user.setPassword(req.body.password);
+//     }, (err) => {
+//         if (err) {
+//             handleError(err);)
+//         }
+//         else {
+//             token = user.generateJwt();
+//             req.session._id = response._doc._id;
+//             req.session.token = token;
+//             sendJSONresponse(res, 200, {
+//                 "token": token,
+//                 "userIsAdmin": user.isAdmin
+//             });
+//         }
+//     })
+// }
 module.exports.register = function(req, res) {
 
     if (!req.body.name || !req.body.email || !req.body.password) {
@@ -93,23 +112,48 @@ module.exports.delete = function(req, res) {
     })
 }
 module.exports.getUsers = function(req, res) {
-    User.find({}, function(err, users) {
-        let userMap = {};
-        userMap = users.map(item => {
-            return {
-                _id: item.id,
-                name: item.local.name
-            }
-        })
+    let userIsAdmin;
+    User.find({"_id": req.session._id}, (err, user) =>{
         if (err) {
-            return handleError(err)
+            return;
         }
-        else {
-            res.status(200).send(
-                userMap
-            )
-        }
-    });
+        userIsAdmin = user.isAdmin;
+    })
+    if (userIsAdmin) {
+        User.find({}, function(err, users) {
+            let userMap = {};
+            userMap = users.map(item => {
+                return {
+                    _id: item.id,
+                    name: item.local.name
+                }
+            })
+            if (err) {
+                return handleError(err)
+            }
+            else {
+                res.status(200).send(userMap)
+            }
+        });
+    }
+    else {
+        User.find({"profileIsVisible": true}, function(err, users) {
+            let userMap = {};
+            userMap = users.map(item => {
+                return {
+                    _id: item.id,
+                    name: item.local.name
+                }
+            })
+            if (err) {
+                return handleError(err)
+            }
+            else {
+                res.status(200).send(userMap)
+            }
+        });
+    }
+
 }
 module.exports.userInfo = function(req, res) {
     Image.find({
@@ -133,11 +177,3 @@ module.exports.userInfo = function(req, res) {
 function handleError(err) {
     console.log(err)
 }
-
-// const createAdmin = () => {
-//     User.findOneAndUpdate({"isAdmin": true}, {
-//         local.name: 'admin',
-//         local.email: 'ad@ad',
-//
-//     })
-// }
