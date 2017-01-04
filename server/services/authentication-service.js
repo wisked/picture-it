@@ -94,22 +94,42 @@ module.exports.delete = function(req, res) {
 }
 module.exports.getUsers = function(req, res) {
     User.find({}, function(err, users) {
-        var userMap = {};
-
-        users.forEach(function(user) {
-            userMap[user._id] = user;
-        });
+        let userMap = {};
+        userMap = users.map(item => {
+            return {
+                _id: item.id,
+                name: item.local.name
+            }
+        })
         if (err) {
             return handleError(err)
         }
         else {
-            res.status(200).json({
-                'users': userMap
-            })
+            res.status(200).send(
+                userMap
+            )
         }
     });
 }
-
+module.exports.userInfo = function(req, res) {
+    Image.find({
+        "_owner": req.query.id
+    }, (err, pic) => {
+        if (err) {
+            return handleError(err)
+        }
+        else {
+            let picUrls = []
+            picUrls = pic.map((item) => {
+                return {
+                    id: item._id,
+                    url: item.url
+                }
+            })
+            res.status(200).send(picUrls)
+        }
+    })
+}
 function handleError(err) {
     console.log(err)
 }

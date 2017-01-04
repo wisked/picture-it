@@ -15,13 +15,13 @@ angular.module('app.home', ['ngFileUpload'])
                 });
         }
     });
-    if (userIsAdmin) {
+    if (!userIsAdmin) {
         $http.get('/users-list')
             .then(res => {
-                if (res.status == 200) {
-                    $scope.usersList.push({user: res.data})
+                if (res.status === 200) {
+                    $scope.usersList = res.data.slice(0);
                 }
-            })
+        })
     }
     $http.get('/images')
         .then(images => {

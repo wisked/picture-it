@@ -34,9 +34,7 @@ angular.module('app.auth', [])
         await $http.get('/logout')
         window.localStorage.removeItem('jwt');
     }
-
-
-
+    
     return auth;
 })
 .factory('UserSevice', function($http) {

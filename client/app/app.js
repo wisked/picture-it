@@ -2,6 +2,7 @@ angular.module('app', [
     'app.home',
     'app.about',
     'app.auth',
+    'app.user',
     'ui.router',
     'ngAnimate',
     'thatisuday.ng-image-gallery',
@@ -26,7 +27,7 @@ angular.module('app', [
 
         $stateProvider
             .state('home', {
-                url: '/home/',
+                url: '/home',
                 templateUrl: 'templates/home.html',
                 controller: 'homeCtrl',
                 authenticate: true
@@ -48,6 +49,12 @@ angular.module('app', [
                 templateUrl: 'templates/login.html',
                 controller: 'authCtrl',
                 authenticate: false
+            })
+            .state('user', {
+                url: '/user/{id}',
+                templateUrl: 'templates/user-info.html',
+                controller: 'userCtrl',
+                authenticate: true
             })
 
     }
