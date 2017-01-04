@@ -10,3 +10,18 @@
 .dragover {
     border: 5px dashed blue;
 }
+.img-container {
+    display: inline;
+    margin-right: 10px;
+
+}
+figure {
+    margin-top: 20px;
+    display: inline-block;
+    width: 23.3%;
+    height: 10em;
+}
+figure img {
+    height: 100%;
+    width: 100%;
+}
