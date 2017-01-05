@@ -100,6 +100,12 @@ module.exports.update = function(req, res) {
 }
 
 module.exports.delete = function(req, res) {
+    let user;
+    User.findOne({"_id": req.session._id}, (err, user) => {
+        if (err) res.send(403)
+        user = user.isAdmin;
+    });
+    console.log(user);
     Image.remove({
         "url": req.body.url
     }, (err) => {
@@ -113,13 +119,13 @@ module.exports.delete = function(req, res) {
 }
 module.exports.getUsers = function(req, res) {
     let userIsAdmin;
-    User.find({"_id": req.session._id}, (err, user) =>{
+    User.find({"_id": req.session._id}, (err, user) => {
         if (err) {
-            return;
+            return handleError(err);
         }
-        userIsAdmin = user.isAdmin;
+        console.log(user);
     })
-    if (userIsAdmin) {
+    // if (userIsAdmin) {
         User.find({}, function(err, users) {
             let userMap = {};
             userMap = users.map(item => {
@@ -135,24 +141,24 @@ module.exports.getUsers = function(req, res) {
                 res.status(200).send(userMap)
             }
         });
-    }
-    else {
-        User.find({"profileIsVisible": true}, function(err, users) {
-            let userMap = {};
-            userMap = users.map(item => {
-                return {
-                    _id: item.id,
-                    name: item.local.name
-                }
-            })
-            if (err) {
-                return handleError(err)
-            }
-            else {
-                res.status(200).send(userMap)
-            }
-        });
-    }
+    // }
+    // else {
+    //     User.find({"profileIsVisible": true}, function(err, users) {
+    //         let userMap = {};
+    //         userMap = users.map(item => {
+    //             return {
+    //                 _id: item.id,
+    //                 name: item.local.name
+    //             }
+    //         })
+    //         if (err) {
+    //             return handleError(err)
+    //         }
+    //         else {
+    //             res.status(200).send(userMap)
+    //         }
+    //     });
+    // }
 
 }
 module.exports.userInfo = function(req, res) {

@@ -6,9 +6,12 @@ multipartyMiddleware = multiparty()
 
 const cloudinary = require('../services/cloudinary-service');
 
+
 module.exports = function (app) {
     app.get('/images', getImages);
     app.post('/image', multipartyMiddleware, cloudinary.uploadImage);
+    app.post('/add-image/:id', multipartyMiddleware, cloudinary.uploadImage);
+
 }
 
 function getImages(request, response) {
@@ -18,4 +21,3 @@ function getImages(request, response) {
         response.status(200).json(images)
     })
 }
-

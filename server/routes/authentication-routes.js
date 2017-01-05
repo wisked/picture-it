@@ -9,6 +9,7 @@ module.exports = function (app) {
     app.post('/delete', ctrlAuth.delete);
     app.get('/users-list', ctrlAuth.getUsers);
     app.get('/user-info', ctrlAuth.userInfo);
+    app.post('/delete', ctrlAuth.delete);
 };
 
 function isAuthenticated(req, res) {

@@ -13,19 +13,6 @@
     </li>
 </ul>
 {{errorMsg}} -->
-<ng-image-gallery
-    ng-if="images.length > 0"
-    images="images"
-    thumbnails="true"
-    inline="true"
-    img-bubbles="true"
-    bg-close="true"
-    bubbles="true"
-    img-anim="slide"
-    conf="conf"
-    on-open="opened();"
-    on-close="closed();"
-></ng-image-gallery>
 
 <div style="margin-top: 20px" class="container">
     <div ngf-drop ngf-select ng-model="file" class="drop-box"
@@ -35,9 +22,12 @@
 </div>
 
 
-<div class="row">
-    <div ng-repeat="src in images">
-        <img ng-src="{{src.url}}" />
-        <span ng-click="delete(src.url)">x</span>
-    </div>
+<div class="gallery">
+        <div ng-repeat="src in images" class="img-container">
+            <figure>
+                <img ng-src="{{src.url}}"/>
+                <a href="" ng-hide="userIsAdmin"><span ng-click="delete(src.url)" class="glyphicon glyphicon-remove"></span></a>
+            </figure>
+        </div>
+
 </div>

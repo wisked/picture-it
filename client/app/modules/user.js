@@ -1,7 +1,8 @@
 angular.module('app.user', ['ngFileUpload'])
 
 .controller('userCtrl', function($scope, $stateParams, $state, $http, ImageService, Upload) {
-    $scope.images = {};
+    $scope.images = [];
+    $scope.userIsAdmin = window.localStorage['isAdmin'];
 
     $http.get('/user-info', {params: {id: $stateParams.id}})
         .then(data => $scope.images = data.data.slice(0))
@@ -13,9 +14,10 @@ angular.module('app.user', ['ngFileUpload'])
                     $scope.images = $scope.images.filter(e => e.url !== url)
             })
     }
+
     $scope.$watch('file', function () {
         if ($scope.file != null) {
-            Upload.upload({ url: '/image', data: { image: $scope.file } })
+            Upload.upload({ url: '/add-image/' + $stateParams.id, data: { image: $scope.file, user_id: $stateParams.id } })
                 .then(res => {
                     if (res.status = 200)
                         $scope.images.push({url: res.data})

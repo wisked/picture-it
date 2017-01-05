@@ -17,7 +17,7 @@ module.exports = {
                     // req.imageLink = result.url;
                     let image = new Image();
                     image.url = result.url;
-                    image._owner = req.session._id;
+                    image._owner = req.params.id ? req.params.id : req.session._id;
                     image.save((err, response) => {
                         res.status(201).json(result.url)
                     })
