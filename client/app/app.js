@@ -5,6 +5,9 @@ angular.module('app', [
     'app.user',
     'ui.router',
     'ngAnimate',
+    'img.service',
+    'user.service',
+    'auth.service',
     'thatisuday.ng-image-gallery',
     'ngFileUpload'
 ])
@@ -62,7 +65,7 @@ angular.module('app', [
 
 .controller('AppCtrl', function ($rootScope, $scope, $state, AuthService) {
     $scope.authenticated = AuthService.isAuthenticated();
-
+    $scope.name = window.localStorage["name"];
     $scope.logout = async function () {
         await AuthService.logout()
         $scope.authenticated = false

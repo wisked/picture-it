@@ -7,26 +7,21 @@ const sendJSONresponse = function(res, status, content) {
     res.status(status);
     res.json(content);
 };
-// const createAdmin = () => {
-//     User.findOneAndUpdate({"isAdmin": true}, {
-//         local.name: 'admin',
-//         local.email: 'ad@ad',
-//         user.setPassword(req.body.password);
-//     }, (err) => {
-//         if (err) {
-//             handleError(err);)
-//         }
-//         else {
-//             token = user.generateJwt();
-//             req.session._id = response._doc._id;
-//             req.session.token = token;
-//             sendJSONresponse(res, 200, {
-//                 "token": token,
-//                 "userIsAdmin": user.isAdmin
-//             });
-//         }
-//     })
-// }
+const createAdmin = () => {
+    let user = new User();
+    user.isAdmin = true;
+    user.local.name = 'admin';
+    user.local.email = 'admin@admin';
+    user.setPassword('admin');
+    user.save(function(err, response) {
+        let token;
+
+        if (err) {
+            return;
+        }
+    });
+
+}
 module.exports.register = function(req, res) {
 
     if (!req.body.name || !req.body.email || !req.body.password) {
@@ -35,7 +30,16 @@ module.exports.register = function(req, res) {
         });
         return;
     }
-
+    let adminIsExist;
+    User.findOne({'isAdmin': true}, (err, admin) => {
+        if (err) {
+            return handleError(err);
+        }
+        adminIsExist = admin;
+    });
+    if (!adminIsExist) {
+        createAdmin();
+    }
     let user = new User();
     user.local.name = req.body.name;
     user.local.email = req.body.email;
@@ -51,7 +55,8 @@ module.exports.register = function(req, res) {
             req.session.token = token;
             sendJSONresponse(res, 200, {
                 "token": token,
-                "userIsAdmin": user.isAdmin
+                "userIsAdmin": user.isAdmin,
+                "name": user.local.name
             });
         }
     });
@@ -76,7 +81,8 @@ module.exports.login = function(req, res) {
             req.session.token = token;
             sendJSONresponse(res, 200, {
                 "token": token,
-                "userIsAdmin": user.isAdmin
+                "userIsAdmin": user.isAdmin,
+                "name": user.local.name
             });
         } else {
             sendJSONresponse(res, 401, info);
@@ -105,7 +111,6 @@ module.exports.delete = function(req, res) {
         if (err) res.send(403)
         user = user.isAdmin;
     });
-    console.log(user);
     Image.remove({
         "url": req.body.url
     }, (err) => {
@@ -119,46 +124,32 @@ module.exports.delete = function(req, res) {
 }
 module.exports.getUsers = function(req, res) {
     let userIsAdmin;
-    User.find({"_id": req.session._id}, (err, user) => {
+    let query = {};
+    let profile = {
+        "profileIsVisible": true
+    }
+    User.findOne({"_id": req.session._id}, (err, user) => {
         if (err) {
             return handleError(err);
         }
-        console.log(user);
+        userIsAdmin = user;
     })
-    // if (userIsAdmin) {
-        User.find({}, function(err, users) {
-            let userMap = {};
-            userMap = users.map(item => {
-                return {
-                    _id: item.id,
-                    name: item.local.name
-                }
-            })
-            if (err) {
-                return handleError(err)
+    query = userIsAdmin ? profile : {}
+    User.find(query, function(err, users) {
+        let userMap = {};
+        userMap = users.map(item => {
+            return {
+                _id: item.id,
+                name: item.local.name
             }
-            else {
-                res.status(200).send(userMap)
-            }
-        });
-    // }
-    // else {
-    //     User.find({"profileIsVisible": true}, function(err, users) {
-    //         let userMap = {};
-    //         userMap = users.map(item => {
-    //             return {
-    //                 _id: item.id,
-    //                 name: item.local.name
-    //             }
-    //         })
-    //         if (err) {
-    //             return handleError(err)
-    //         }
-    //         else {
-    //             res.status(200).send(userMap)
-    //         }
-    //     });
-    // }
+        })
+        if (err) {
+            return handleError(err)
+        }
+        else {
+            res.status(200).send(userMap)
+        }
+    });
 
 }
 module.exports.userInfo = function(req, res) {

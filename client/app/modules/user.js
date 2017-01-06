@@ -29,8 +29,8 @@ angular.module('app.user', ['ngFileUpload'])
     //     $scope.errFiles = errFiles;
     //     angular.forEach(files, function(file) {
     //         file.upload = Upload.upload({
-    //             url: '/image',
-    //             data: {file: file, userId: $stateParams.id}
+    //             url: '/add-image',
+    //             data: {file: file}
     //         });
     //
     //         file.upload.then(function (response) {
