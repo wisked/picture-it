@@ -123,18 +123,18 @@ module.exports.delete = function(req, res) {
     })
 }
 module.exports.getUsers = function(req, res) {
-    let userIsAdmin;
+    let userIsAdmin = {};
     let query = {};
     let profile = {
         "profileIsVisible": true
     }
-    User.findOne({"_id": req.session._id}, (err, user) => {
+    User.findOne({_id: req.session._id}, (err, user) => {
         if (err) {
             return handleError(err);
         }
-        userIsAdmin = user;
+        userIsAdmin = user.isAdmin;
     })
-    query = userIsAdmin ? profile : {}
+    query = userIsAdmin ? {} : profile
     User.find(query, function(err, users) {
         let userMap = {};
         userMap = users.map(item => {
@@ -168,6 +168,19 @@ module.exports.userInfo = function(req, res) {
                 }
             })
             res.status(200).send(picUrls)
+        }
+    })
+}
+
+module.exports.userVisibility = (req, res) => {
+    User.findOne({
+        _id: req.session._id
+    }, (err, user) => {
+        if(err) {
+            return handleError(err)
+        }
+        else {
+            res.send({profile: user.profileIsVisible})
         }
     })
 }

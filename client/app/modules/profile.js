@@ -3,9 +3,9 @@ angular.module('app.profile', [])
 .controller('profileCtrl', function($scope, $state, $http, ImageService, UserSevice, AuthService) {
     $scope.images = [];
 
-    $scope.profileIsVisible = AuthService.user.profileIsVisible;
-
-
+    // $scope.watch($scope.profileIsVisible, function () {
+        
+    //   })
     $scope.change = async function() {
         await UserSevice.update($scope.profileIsVisible)
         $state.transitionTo('profile')
@@ -18,6 +18,11 @@ angular.module('app.profile', [])
                 $scope.images = $scope.images.filter(e => e.url !== url)
             })
     }
+    $http.get('/user-visibility')
+        .then(user => {
+            console.log(user)
+            $scope.profileIsVisible = user.data.profile
+        })
     $http.get('/images')
         .then(images => {
             images.data.forEach(img => {
