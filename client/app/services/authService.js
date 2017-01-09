@@ -33,6 +33,8 @@ angular.module('auth.service', [])
     auth.logout = async function () {
         await $http.get('/logout')
         window.localStorage.removeItem('jwt');
+        window.localStorage.removeItem('isAdmin');
+        window.localStorage.removeItem('name')
     }
 
     return auth;

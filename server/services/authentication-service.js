@@ -52,6 +52,7 @@ module.exports.register = function(req, res) {
         } else {
             token = user.generateJwt();
             req.session._id = response._doc._id;
+            req.session._isAdmin = false
             req.session.token = token;
             sendJSONresponse(res, 200, {
                 "token": token,
@@ -78,6 +79,7 @@ module.exports.login = function(req, res) {
         if (user) {
             token = user.generateJwt();
             req.session._id = user._doc._id;
+            req.session._isAdmin = user.isAdmin
             req.session.token = token;
             sendJSONresponse(res, 200, {
                 "token": token,
@@ -123,17 +125,18 @@ module.exports.delete = function(req, res) {
     })
 }
 module.exports.getUsers = function(req, res) {
-    let userIsAdmin = {};
+    let userIsAdmin = req.session._isAdmin;
     let query = {};
     let profile = {
         "profileIsVisible": true
     }
-    User.findOne({_id: req.session._id}, (err, user) => {
-        if (err) {
-            return handleError(err);
-        }
-        userIsAdmin = user.isAdmin;
-    })
+    // User.find({_id: req.session._id}, (err, user) => {
+    //     if (err) {
+    //         return handleError(err);
+    //     }
+    //     console.log(user[0]);
+    //     user = user
+    // })
     query = userIsAdmin ? {} : profile
     User.find(query, function(err, users) {
         let userMap = {};

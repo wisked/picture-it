@@ -20,7 +20,6 @@ angular.module('app.profile', [])
     }
     $http.get('/user-visibility')
         .then(user => {
-            console.log(user)
             $scope.profileIsVisible = user.data.profile
         })
     $http.get('/images')
