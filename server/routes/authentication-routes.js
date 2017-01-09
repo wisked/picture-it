@@ -11,6 +11,7 @@ module.exports = function (app) {
     app.get('/user-info', ctrlAuth.userInfo);
     app.post('/delete', ctrlAuth.delete);
     app.get('/user-visibility', ctrlAuth.userVisibility);
+    app.post('/deleteUserImg', ctrlAuth.deleteUserImg)
 };
 
 function isAuthenticated(req, res) {

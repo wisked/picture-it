@@ -8,6 +8,11 @@ angular.module('img.service', [])
             url: url
         });
     }
-
+    img.deleteUserImg = function (url, user) { 
+        return $http.post('/deleteUserImg', {
+            url: url,
+            user: user
+        })
+     }
     return img;
 })

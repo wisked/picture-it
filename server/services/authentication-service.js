@@ -108,11 +108,11 @@ module.exports.update = function(req, res) {
 }
 
 module.exports.delete = function(req, res) {
-    let user;
-    User.findOne({"_id": req.session._id}, (err, user) => {
-        if (err) res.send(403)
-        user = user.isAdmin;
-    });
+    let userIsAdmin = req.session._isAdmin;
+    // User.findOne({"_id": req.session._id}, (err, user) => {
+    //     if (err) res.send(403)
+    //     user = user.isAdmin;
+    // });
     Image.remove({
         "url": req.body.url
     }, (err) => {
@@ -186,6 +186,24 @@ module.exports.userVisibility = (req, res) => {
             res.send({profile: user.profileIsVisible})
         }
     })
+}
+module.exports.deleteUserImg = (req, res) => {
+    let userIsAdmin = req.session._isAdmin;
+    // User.findOne({"_id": req.session._id}, (err, user) => {
+    //     if (err) res.send(403)
+    //     user = user.isAdmin;
+    // });
+    if(userIsAdmin && req.body.user)
+        Image.remove({
+            "url": req.body.url
+        }, (err) => {
+            if (err) {
+                return handleError(err)
+            } else
+                res.status(200).json({
+                    'message': 'success'
+                })
+        })
 }
 function handleError(err) {
     console.log(err)

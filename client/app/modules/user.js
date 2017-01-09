@@ -8,7 +8,7 @@ angular.module('app.user', ['ngFileUpload'])
         .then(data => $scope.images = data.data.slice(0))
 
     $scope.delete = async function(url) {
-        ImageService.delete(url)
+        ImageService.deleteUserImg(url, $stateParams.id)
             .then(res => {
                 if (res)
                     $scope.images = $scope.images.filter(e => e.url !== url)
