@@ -1,6 +1,6 @@
 angular.module('app', [
     'app.home',
-    'app.about',
+    'app.profile',
     'app.auth',
     'app.user',
     'ui.router',
@@ -35,10 +35,10 @@ angular.module('app', [
                 controller: 'homeCtrl',
                 authenticate: true
             })
-            .state('about', {
-                url: '/about',
-                templateUrl: 'templates/about.html',
-                controller: 'aboutCtrl',
+            .state('profile', {
+                url: '/profile',
+                templateUrl: 'templates/profile.html',
+                controller: 'profileCtrl',
                 authenticate: true
             })
             .state('register', {

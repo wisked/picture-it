@@ -1,6 +1,6 @@
-angular.module('app.about', [])
+angular.module('app.profile', [])
 
-.controller('aboutCtrl', function($scope, $state, $http, ImageService, UserSevice, AuthService) {
+.controller('profileCtrl', function($scope, $state, $http, ImageService, UserSevice, AuthService) {
     $scope.images = [];
 
     $scope.profileIsVisible = AuthService.user.profileIsVisible;
@@ -8,7 +8,7 @@ angular.module('app.about', [])
 
     $scope.change = async function() {
         await UserSevice.update($scope.profileIsVisible)
-        $state.transitionTo('about')
+        $state.transitionTo('profile')
     }
 
     $scope.delete = async function(url) {
