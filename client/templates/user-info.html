@@ -24,8 +24,9 @@
 
 <div class="gallery">
         <div ng-repeat="src in images" class="img-container">
-            <figure>
-                <img ng-src="{{src.url}}"/>
+            <figure class="profile">
+                <!-- <a href="/image/"><img ng-src="{{src.url}}"/><a> -->
+                <a ui-sref="image({img: src.url})"><img ng-src="{{src.url}}"/><a>
                 <a href="" ng-if="userIsAdmin"><span ng-click="delete(src.url)" class="glyphicon glyphicon-remove"></span></a>
             </figure>
         </div>

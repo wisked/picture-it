@@ -3,6 +3,7 @@ angular.module('app', [
     'app.profile',
     'app.auth',
     'app.user',
+    'app.image',
     'ui.router',
     'ngAnimate',
     'img.service',
@@ -57,6 +58,12 @@ angular.module('app', [
                 url: '/user/{id}',
                 templateUrl: 'templates/user-info.html',
                 controller: 'userCtrl',
+                authenticate: true
+            })
+            .state('image', {
+                url: '/image/{img}',
+                templateUrl: 'templates/image.html',
+                controller: 'imageCtrl',
                 authenticate: true
             })
 

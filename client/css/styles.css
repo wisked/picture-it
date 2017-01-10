@@ -15,13 +15,13 @@
     margin-right: 10px;
 
 }
-figure {
+figure.profile {
     margin-top: 20px;
     display: inline-block;
     width: 23.3%;
     height: 10em;
 }
-figure img {
+figure.profile img {
     height: 100%;
     width: 100%;
 }
