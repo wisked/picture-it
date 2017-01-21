@@ -1,45 +1,46 @@
-// IMPORTING PACKAGES
-const http = require('http'),
-      path = require('path');
+const path = require('path');
+const express = require('express');
+const bodyParser = require('body-parser');
+const morgan = require('morgan');
+const expressSession = require('express-session');
+const db = require('./back-end/models/utils/DataBaseUtils')
 
-const express = require('express'),
-      session = require('express-session'),
-      favicon = require('serve-favicon'),
-      bodyParser = require('body-parser'),
-      logger = require('morgan'),
-      mongoose = require('mongoose');
-      passport = require('passport');
+const userRoutes = require('./back-end/routes/user.routes')
+const imageRoutes = require('./back-end/routes/image.routes')
+const authRoutes = require('./back-end/routes/authenication.routes')
 
-const config = require('./server/config/server-config');
+const configs = require('./etc/config.json')
 
-// IMPORT DB DATA
-require('./server/models/db');
-require('./server/config/passport-config');
+const app = express()
 
-// CREATING EXPRESS
-const app = express();
+db.setUpConnection()
+// require('./back-end/controllers/configs/passport')
 
-// SETTING MIDDLEWARE
-app.set('port', config.port || 3000)
-app.use(session({ resave: true, saveUninitialized: true, secret: 'ais-novations' }));
-app.use(favicon(__dirname + '/client/assets/favicon.ico'));
-app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
-app.use(bodyParser.json({ limit: '50mb' }));
-app.use(logger('dev'));
+app.set("port", configs.serverPort || 3000);
+app.use(expressSession({
+    secret: "secret",
+    resave: false,
+    saveUninitialized: true
+}))
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.json());
+app.use(morgan('dev'))
 
-// IMPORTING ROUTES
-require('./server/routes/home-routes.js')(app);
-require('./server/routes/authentication-routes.js')(app);
+app.use(express.static(path.join(__dirname + '/client')))
 
-// SERVE STATIC FOLDER
-app.use(express.static(path.join(__dirname, '/client')));
+require('express-debug')(app, {
 
-// SERVE INDEX.HTML
-app.get('/', function(req, res) {
-    res.sendFile('./client/index.html');
 });
 
-// RUN SERVER
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
-});
+
+app.get('/', (req, res) => {
+    res.sendFile('./client/index.html')
+})
+app.use('/', authRoutes)
+app.use('/api', imageRoutes)
+app.use('/api', userRoutes)
+
+
+app.listen(configs.serverPort, () => {
+    console.log(`listening port ${configs.serverPort}`);
+})
