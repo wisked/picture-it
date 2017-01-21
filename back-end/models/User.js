@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+import crypto from 'crypto';
 
 const Schema = mongoose.Schema;
 
@@ -14,4 +15,10 @@ const UserSchema = new Schema({
     }
 })
 
+UserSchema.methods.setPassword = function(password) {
+    this.local.hash = crypto.createHmac('sha256', secret).update('I love cupcakes').digest('hex');
+}
+UserSchema.methods.getHash = function(password) {
+    return crypto.createHmac('sha256', secret).update('I love cupcakes').digest('hex');
+}
 const User = mongoose.model('User': UserSchema);
