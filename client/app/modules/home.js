@@ -22,8 +22,8 @@ angular.module('app.home', ['ngFileUpload'])
                 $scope.usersList = res.data.slice(0);
             }
     })
-    
-    $http.get('/images')
+
+    $http.get('/api/images')
         .then(images => {
             images.data.forEach(img => {
                 $scope.images.push({url: img})
