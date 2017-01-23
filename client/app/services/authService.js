@@ -14,9 +14,9 @@ angular.module('auth.service', [])
         window.localStorage['jwt'] = angular.toJson(res.data.token)
     }
 
-    auth.login = async function (email, password) {
+    auth.login = async function (username, password) {
         let res = await $http.post('/login', {
-            email: email,
+            username: username,
             password: password
         })
         auth.user = res.user;
@@ -31,10 +31,10 @@ angular.module('auth.service', [])
     }
 
     auth.logout = async function () {
-        await $http.get('/logout')
         window.localStorage.removeItem('jwt');
         window.localStorage.removeItem('isAdmin');
         window.localStorage.removeItem('name')
+        await $http.get('/logout')
     }
 
     return auth;
