@@ -16,9 +16,9 @@ const UserSchema = new Schema({
 })
 
 UserSchema.methods.setPassword = function(password) {
-    this.local.hash = crypto.createHmac('sha256', secret).update('I love cupcakes').digest('hex');
+    this.local.hash = crypto.createHmac('sha256', secret).update(password).digest('hex');
 }
 UserSchema.methods.getHash = function(password) {
-    return crypto.createHmac('sha256', secret).update('I love cupcakes').digest('hex');
+    return crypto.createHmac('sha256', secret).update(password).digest('hex');
 }
 mongoose.model('User', UserSchema);
