@@ -21,4 +21,4 @@ UserSchema.methods.setPassword = function(password) {
 UserSchema.methods.getHash = function(password) {
     return crypto.createHmac('sha256', secret).update('I love cupcakes').digest('hex');
 }
-const User = mongoose.model('User': UserSchema);
+mongoose.model('User', UserSchema);
