@@ -3,9 +3,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const expressSession = require('express-session');
+import passport from 'passport';
+
 const db = require('./back-end/models/utils/DataBaseUtils')
 
-const userRoutes = require('./back-end/routes/user.routes')
+// const userRoutes = require('./back-end/routes/user.routes')
 const imageRoutes = require('./back-end/routes/image.routes')
 const authRoutes = require('./back-end/routes/authenication.routes')
 
@@ -14,9 +16,13 @@ const configs = require('./etc/config.json')
 const app = express()
 
 db.setUpConnection()
-// require('./back-end/controllers/configs/passport')
+import './back-end/models/User'
+import './back-end/models/Image'
+
+import './back-end/controllers/configs/passport';
 
 app.set("port", configs.serverPort || 3000);
+app.use(express.static(path.join(__dirname + '/client')))
 app.use(expressSession({
     secret: "secret",
     resave: false,
@@ -24,9 +30,10 @@ app.use(expressSession({
 }))
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(bodyParser.json());
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(morgan('dev'))
 
-app.use(express.static(path.join(__dirname + '/client')))
 
 require('express-debug')(app, {
 
@@ -38,7 +45,7 @@ app.get('/', (req, res) => {
 })
 app.use('/', authRoutes)
 app.use('/api', imageRoutes)
-app.use('/api', userRoutes)
+// app.use('/api', userRoutes)
 
 
 app.listen(configs.serverPort, () => {
