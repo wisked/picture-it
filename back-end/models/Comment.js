@@ -8,4 +8,4 @@ const CommentSchema = new Schema({
     text    : {type: String}
 })
 
-const Comment = mongoose.model('Comment': CommentSchema);
+mongoose.model('Comment', CommentSchema);
