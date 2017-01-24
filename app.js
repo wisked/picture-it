@@ -22,7 +22,7 @@ import './back-end/models/Image'
 import './back-end/controllers/configs/passport';
 
 app.set("port", configs.serverPort || 3000);
-app.use(express.static(path.join(__dirname + '/client')))
+app.use(express.static(path.join(__dirname + '/front-end')))
 app.use(expressSession({
     secret: "secret",
     resave: false,
