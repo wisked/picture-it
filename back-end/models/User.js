@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 import crypto from 'crypto';
+import jwt from 'jsonwebtoken';
 
 const Schema = mongoose.Schema;
 
@@ -20,5 +21,10 @@ UserSchema.methods.setPassword = function(password) {
 }
 UserSchema.methods.getHash = function(password) {
     return crypto.createHmac('sha256', secret).update(password).digest('hex');
+}
+UserSchema.methods.generateJwt = function() {
+    return jwt.sign({
+        exp: Math.floor(Date.now() / 1000 + (60 * 60))
+    }, "secret")
 }
 mongoose.model('User', UserSchema);
