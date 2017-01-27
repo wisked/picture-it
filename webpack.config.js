@@ -16,6 +16,7 @@ module.exports = {
         contentBase: path.join(__dirname, "front-end/src"),
         compress: false,
         port: 9000,
-        hot: true
+        hot: true,
+        watchContentBase: true
     }
 }
