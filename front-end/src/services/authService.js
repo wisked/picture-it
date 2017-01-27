@@ -13,7 +13,8 @@ angular.module('auth.service')
         })
         .then(res => {
             window.localStorage['jwt'] = angular.toJson(res.data.token)
-            $rootScope.jwt = angular.toJson(res.data.token)
+            $rootScope.name = angular.toJson(res.data.name)
+            $rootScope.isAdmin = angular.toJson(res.data.isAdmin)
         })
     }
 
@@ -26,12 +27,9 @@ angular.module('auth.service')
         .then(res => {
             auth.user = res.user;
             auth.user = { userIsAdmin: res.data.userIsAdmin}
-            $rootScope.jwt = angular.toJson(res.data.token)
             $rootScope.isAdmin = angular.toJson(res.data.isAdmin)
             $rootScope.name = angular.toJson(res.data.name)
             window.localStorage['jwt'] = angular.toJson(res.data.token);
-            window.localStorage['isAdmin'] = angular.toJson(res.data.userIsAdmin)
-            window.localStorage['name'] = angular.toJson(res.data.name)
         })
     }
 
