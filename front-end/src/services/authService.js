@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-angular.module('auth.service')
+export default angular.module('auth.service', [])
 .factory('AuthService', function($http, $rootScope) {
     const auth = {};
     $rootScope.user = {}
