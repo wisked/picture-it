@@ -1,11 +1,11 @@
 import angular from 'angular';
+import uiRouter from 'angular-ui-router';
 
-
-import '../modules/auth';
-
+import '../services/authService'
 
 angular.module('app.auth', [
-    'auth.service'
+    'auth.service',
+    uiRouter
 ])
 
 .controller('authCtrl', function($scope, AuthService, $state) {

@@ -94,4 +94,5 @@ export const login = (req, res) => {
 
 export const logout = (req, res) => {
     req.session = null
+    res.sendStatus(200)
 }

@@ -43,7 +43,7 @@ require('express-debug')(app, {
 app.get('/', (req, res) => {
     res.sendFile('./client/index.html')
 })
-app.use('/', authRoutes)
+app.use('/api', authRoutes)
 app.use('/api', imageRoutes)
 // app.use('/api', userRoutes)
 
