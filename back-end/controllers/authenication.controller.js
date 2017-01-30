@@ -34,17 +34,16 @@ export const register = (req, res) => {
         res.json({meassage: "all field required"})
     }
     else {
-        let adminIsExist;
         User.findOne({'isAdmin': true}, (err, admin) => {
             if (err) {
                 return;
             }
-            console.log(adminIsExist);
-            adminIsExist = admin;
+            if (!admin) {
+                createAdmin(req, res);
+            }
+
         });
-        if (!adminIsExist) {
-            createAdmin(req, res);
-        }
+
         let user = new User({})
         user.local.username = req.body.name;
         user.local.email = req.body.email;
