@@ -57,8 +57,7 @@ export const register = (req, res) => {
                 req.session._id = response._doc._id;
                 req.session.isAdmin = response._doc.isAdmin
                 req.session.token = token
-
-                res.json({
+                res.status(200).json({
                     "token": token,
                     "userIsAdmin": user.isAdmin,
                     "name": user.local.username
