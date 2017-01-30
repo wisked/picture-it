@@ -14,8 +14,8 @@ angular.module('app.auth', [
         $state.transitionTo('home')
     }
 
-    $scope.register = function () {
-        AuthService.register($scope.email, $scope.username, $scope.password)
+    $scope.register = async function () {
+        await AuthService.register($scope.email, $scope.username, $scope.password)
         $state.transitionTo("home")
     }
 })

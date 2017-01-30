@@ -12,7 +12,7 @@
         <script src="./src/modules/auth.js" charset="utf-8"></script> -->
 </head>
 
-<body ng-app="imgStore">
+<body ng-app="imgStore" ng-controller="appCtrl">
     <div class="container">
         <nav>
             <ul class="menu">
@@ -29,6 +29,9 @@
                         </li>
                     </ul>
 
+                </li>
+                <li ng-if="authenticated">
+                    <a>Logout {{user}}</a>
                 </li>
             </ul>
 
