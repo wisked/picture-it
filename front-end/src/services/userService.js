@@ -11,8 +11,10 @@ angular.module('user.service', [])
         })
     }
     user.getUserList = function () {
-        $http.get('/api/get-userList')
-        
+        return $http.get('/api/get-usersList')
+        .then(res => res.data)
+
+
     }
     return user
 })
