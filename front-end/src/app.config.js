@@ -35,7 +35,7 @@ export default angular.module('app.config', [
         })
         .state('user', {
             url: '/user/{id}',
-            templateUrl: '/src/templates/user-info.html',
+            templateUrl: '/src/templates/user.html',
             controller: 'userCtrl',
             authenticate: true
         })
