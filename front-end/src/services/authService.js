@@ -5,7 +5,7 @@ export default angular.module('auth.service', [])
     const auth = {};
     $rootScope.user = {}
 
-    auth.register = function(email, name, password) {
+    auth.register = function(email, name, password, callback) {
         $http.post('/api/register', {
             email: email,
             name: name,
@@ -17,11 +17,12 @@ export default angular.module('auth.service', [])
                 name: angular.toJson(res.data.name),
                 isAdmin: angular.toJson(res.data.isAdmin)
             }
+            callback()
         })
     }
 
 
-    auth.login = function (username, password) {
+    auth.login = function (username, password, callback) {
         $http.post('/api/login', {
             username: username,
             password: password
@@ -36,6 +37,7 @@ export default angular.module('auth.service', [])
                 name: angular.toJson(res.data.name)
             }
             window.localStorage['jwt'] = angular.toJson(res.data.token);
+            callback()
         })
     }
 
@@ -43,12 +45,12 @@ export default angular.module('auth.service', [])
         return window.localStorage.getItem('jwt') ? true : false
     }
 
-    // auth.logout = async function () {
-    //     window.localStorage.removeItem('jwt');
-    //     $rootScope.user = {}
-    //     await   $http.get('/api/logout')
-    //
-    // }
+    auth.logout = function (callback) {
+        window.localStorage.removeItem('jwt');
+        $rootScope.user = {}
+        $http.get('/api/logout').then(res => callback())
+
+    }
 
     return auth;
 })
