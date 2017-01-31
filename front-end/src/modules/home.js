@@ -8,6 +8,7 @@ angular.module('app.home', [
     'user.service'
 ])
 .controller('homeCtrl', function($scope, $rootScope, UserSevice) {
-
+    let userPromise = UserSevice.getUserList()
+    userPromise.then(res => $scope.userList = res);
 
 })
