@@ -1,10 +1,12 @@
 import angular from 'angular';
 import angularUiBootstrap from 'angular-ui-bootstrap';
 
+import ngFileUpload from 'ng-file-upload';
 import '../services/userService';
 
 angular.module('app.profile', [
     'user.service',
+    ngFileUpload,
     angularUiBootstrap
 ])
 .controller('profileCtrl', function($scope, UserSevice) {
