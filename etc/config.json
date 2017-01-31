@@ -5,5 +5,10 @@
         "name": "users",
         "host": "localhost",
         "port": 27017
+    },
+    "cloudinary": {
+        "cloud_name": "dyyb6i3aq",
+        "api_key"   : "486978629141521",
+        "api_secret": "50k2fAEiTFQPzgBei6-y8WF-Cq8"
     }
 }
