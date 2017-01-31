@@ -9,10 +9,9 @@ module.exports.getUsersList = (req, res) => {
     let profile = {
         "profileIsVisible": true
     }
-
     query = userIsAdmin ? {} : profile
     User.find(query, function(err, users) {
-        let userMap = {};
+        let userMap = [];
         userMap = users.map(item => {
             return {
                 _id: item.id,
@@ -20,7 +19,8 @@ module.exports.getUsersList = (req, res) => {
             }
         })
         if (err) {
-            return handleError(err)
+            console.log(err);
+            return;
         }
         else {
             res.status(200).send(userMap)
@@ -34,6 +34,21 @@ module.exports.setUserVisibility = (req, res) => {
         _id: req.session._id
     }, (err, user) => {
         if(err) {
+            return;
+        }
+        else {
+            user.profileIsVisible = req.body.profile
+            user.save()
+            res.sendStatus(200)
+        }
+    })
+}
+module.exports.checkProfileVisability = (req, res) => {
+    User.findOne({
+        _id: req.session._id
+    }, (err, user) => {
+        if(err) {
+            console.log(err);
             return;
         }
         else {
