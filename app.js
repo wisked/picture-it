@@ -7,7 +7,7 @@ import passport from 'passport';
 
 const db = require('./back-end/models/utils/DataBaseUtils')
 
-// const userRoutes = require('./back-end/routes/user.routes')
+const userRoutes = require('./back-end/routes/user.routes')
 const imageRoutes = require('./back-end/routes/image.routes')
 const authRoutes = require('./back-end/routes/authenication.routes')
 
@@ -45,7 +45,7 @@ app.get('/', (req, res) => {
 })
 app.use('/api', authRoutes)
 app.use('/api', imageRoutes)
-// app.use('/api', userRoutes)
+app.use('/api', userRoutes)
 
 
 app.listen(configs.serverPort, () => {
