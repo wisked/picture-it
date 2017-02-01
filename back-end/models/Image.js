@@ -4,8 +4,11 @@ const Schema = mongoose.Schema;
 
 const ImageSchema = new Schema({
     _userId : [{ type: Schema.Types.ObjectId, ref: 'User'}],
-    url     : {type: String},
-    likes   : [Schema.Types.ObjectId]
+    likes   : [Schema.Types.ObjectId],
+    cloudinary: {
+        public_id : {type: String}
+        url       : {type: String},
+    }
 })
 
 mongoose.model('Image', ImageSchema);
