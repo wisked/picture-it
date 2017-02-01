@@ -1,13 +1,12 @@
 import mongoose from 'mongoose';
 import cloudinary from 'cloudinary';
 
+
 import configs from '../../etc/config.json'
 
 const Image = mongoose.model('Image');
 
 const clodinaryConfigs = configs.cloudinary;
-
-cloudinary.config(clodinaryConfigs)
 
 export const getUserImages = (req, res) => {
     Image.find({
@@ -46,24 +45,58 @@ export const deleteUserImage = (req, res) => {
 }
 
 export const uploadImage = (req, res, next) => {
-        if (req.files.image) {
-            cloudinary.uploader.upload(req.files.image.path, function (result) {
+    cloudinary.config(clodinaryConfigs)
+    let images = [];
+    if (req.files.length) {
+        cloudinary.uploader.upload(req.files[0].path, function (result) {
                 if (result.url) {
                     let image = new Image();
-                    image.url = result.url;
-                    image._owner = req.params.id ? req.params.id : req.session._id;
+                    image = {
+                        _owner: req.params.id ? req.params.id : req.session._id,
+                        cloudinary: {
+                            public_id: result.public_id,
+                            url: result.url
+                        }
+                    }
                     image.save((err, response) => {
-                        res.status(201).json(result.url)
+                        images.push(result.url)
+                        if (err) {
+                            console.log(err);
+                        }
                     })
-                } else {
+                }
+                else {
+                    console.log("errro");
                     res.json(error);
                 }
             });
-        }
-        else {
-            next();
-        }
+
+
+        // req.files.forEach(file => {
+        //     cloudinary.uploader.upload(file.path, function (result) {
+        //         if (result.url) {
+        //             let image = new Image();
+        //             image = {
+        //                 _owner: req.params.id ? req.params.id : req.session._id,
+        //                 cloudinary: {
+        //                     public_id: result.public_id,
+        //                     url: result.url
+        //                 }
+        //             }
+        //             image.save((err, response) => {
+        //                 images.push(result.url)
+        //             })
+        //         } else {
+        //             res.json(error);
+        //         }
+        //     });
+        // })
+        // res.status(201).send({images: images})
     }
+    else {
+        next();
+    }
+}
 export const getImageInfo = (req, res) => {
 
 }
