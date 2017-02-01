@@ -13,8 +13,8 @@ angular.module('user.service', [])
         return $http.get('/api/get-usersList')
                 .then(res => res.data)
     }
-    user.checkProfileVisability = function () {
-        return $http.get('/api/check-userProfile')
+    user.checkProfileVisability = function (userId) {
+        return $http.get('/api/check-userProfile', {userId: userId})
                 .then(res => res.data)
     }
     return user
