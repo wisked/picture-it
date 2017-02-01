@@ -12,7 +12,6 @@ angular.module('img.service', [
     img.loadImgs = function (files) {
         Upload.upload({
             url: '/api/loadImgs',
-            data: {file: files}
             data: {files: files}
         })
         .then(res => {
