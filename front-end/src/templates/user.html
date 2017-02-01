@@ -1,0 +1,12 @@
+<div>
+    <uib-accordion close-others="oneAtATime" ng-if="admin">
+        <div uib-accordion-group class="panel-default" heading="{{header}}">
+            <h3>Profile is visible {{profileVisability}}</h3>
+            <input type="checkbox" name="profile" ng-model="profileVisability" ng-change="changeProfile(profileVisability)">
+            <br>
+            <!-- <button type="button" class="btn btn-default btn-sm" ng-click="addItem()">Add Item</button> -->
+        </div>
+
+    </uib-accordion>
+
+</div>
