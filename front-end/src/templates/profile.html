@@ -11,20 +11,24 @@
     </uib-accordion>
 
     <form name="form">
-        <div class="button" ngf-select ng-model="files" ngf-multiple="true">Select</div>
-        <button type="submit" ng-click="submit()">submit</button>
+        <div class="panel panel-primary" ngf-select ng-model="files" ngf-multiple="true">
+            <div class="panel-body">
+                Click to load Image
+            </div>
+        </div>
+        <!-- <button type="submit" ng-click="submit()"></button> -->
+        <button type="button" class="btn btn-primary" ng-click="submit()">submit</button>
     </form>
 
-
-    <div class="gallery">
+    <!-- <div class="gallery">
         <div ng-repeat="src in images" class="img-container">
             <figure class="profile">
                 <!-- <a href="/image/"><img ng-src="{{src.url}}"/><a> -->
-                <a ui-sref="image({img: src.url})"><img ng-src="{{src.url}}" />
+    <!-- <a ui-sref="image({img: src.url})"><img ng-src="{{src.url}}" />
                     <a>
                         <a href="" ng-if="userIsAdmin"><span ng-click="delete(src.url)" class="glyphicon glyphicon-remove"></span></a>
             </figure>
         </div>
 
-    </div>
+    </div> -->
 </div>
