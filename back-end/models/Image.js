@@ -6,8 +6,8 @@ const ImageSchema = new Schema({
     _userId : [{ type: Schema.Types.ObjectId, ref: 'User'}],
     likes   : [Schema.Types.ObjectId],
     cloudinary: {
-        public_id : {type: String}
-        url       : {type: String},
+        public_id : {type: String},
+        url       : {type: String}
     }
 })
 
