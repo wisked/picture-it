@@ -44,8 +44,10 @@ module.exports.setUserVisibility = (req, res) => {
     })
 }
 module.exports.checkProfileVisability = (req, res) => {
+    let id = req.query.userId ? req.query.userId : req.session._id
+
     User.findOne({
-        _id: req.session._id
+        _id: id
     }, (err, user) => {
         if(err) {
             console.log(err);
