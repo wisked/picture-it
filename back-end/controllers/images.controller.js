@@ -47,51 +47,32 @@ export const deleteUserImage = (req, res) => {
 export const uploadImage = (req, res, next) => {
     cloudinary.config(clodinaryConfigs)
     let images = [];
-    if (req.files.length) {
-        cloudinary.uploader.upload(req.files[0].path, function (result) {
-                if (result.url) {
-                    let image = new Image();
-                    image = {
-                        _owner: req.params.id ? req.params.id : req.session._id,
-                        cloudinary: {
-                            public_id: result.public_id,
-                            url: result.url
-                        }
-                    }
-                    image.save((err, response) => {
+    if (req.files.files.length) {
+        req.files.files.forEach(file => {
+            cloudinary.uploader.upload(file.path, function (result) {
+                console.log(result.url);
+                    if (result.url) {
                         images.push(result.url)
-                        if (err) {
-                            console.log(err);
+                        let image = new Image();
+                        image = {
+                            _owner: req.params.id ? req.params.id : req.session._id,
+                            cloudinary: {
+                                public_id: result.public_id,
+                                url: result.url
+                            }
                         }
-                    })
-                }
-                else {
-                    console.log("errro");
-                    res.json(error);
-                }
+                        image.save((err, response) => {
+                            if (err) {
+                                console.log(err);
+                            }
+                            res.status(200).send({imagesUrl: images})
+                        })
+                    }
+                    else {
+                        res.sendStatus(500);
+                    }
             });
-
-
-        // req.files.forEach(file => {
-        //     cloudinary.uploader.upload(file.path, function (result) {
-        //         if (result.url) {
-        //             let image = new Image();
-        //             image = {
-        //                 _owner: req.params.id ? req.params.id : req.session._id,
-        //                 cloudinary: {
-        //                     public_id: result.public_id,
-        //                     url: result.url
-        //                 }
-        //             }
-        //             image.save((err, response) => {
-        //                 images.push(result.url)
-        //             })
-        //         } else {
-        //             res.json(error);
-        //         }
-        //     });
-        // })
-        // res.status(201).send({images: images})
+        })
     }
     else {
         next();
