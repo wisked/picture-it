@@ -26,6 +26,15 @@ angular.module('app.profile', [
 
     $scope.submit = function () {
         let imagesPromise = ImageService.loadImgs($scope.files)
-        
+        imagesPromise.then(res => $scope.images = res)
+    }
+    $scope.deleteImg = function (id) {
+        let deleteImgPromise = ImageService.deleteImage(id)
+        deleteImgPromise.then(res => {
+            $scope.images = $scope.images.filter(item => item.id != id)
+        })
+
+
+
     }
 })
