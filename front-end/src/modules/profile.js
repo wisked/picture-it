@@ -11,7 +11,7 @@ angular.module('app.profile', [
     ngFileUpload,
     angularUiBootstrap
 ])
-.controller('profileCtrl', function($scope, UserSevice, ImageService) {
+.controller('profileCtrl', function($scope, UserSevice, ImageService, $uibModal) {
     $scope.header = "Edit profile"
     let profilePromise = UserSevice.checkProfileVisability()
     profilePromise.then(res => $scope.profileVisability = res.profile)
@@ -33,8 +33,14 @@ angular.module('app.profile', [
         deleteImgPromise.then(res => {
             $scope.images = $scope.images.filter(item => item.id != id)
         })
+    }
 
-
-
+    $scope.openModal = function (url) {
+        let modalInstance = $uibModal.open({
+            templateUrl: '../../src/templates/image-modal.html',
+            controller: function($scope) {
+                $scope.url = url
+            }
+        })
     }
 })
