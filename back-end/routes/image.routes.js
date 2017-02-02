@@ -5,8 +5,8 @@ const router = require('express').Router();
 const imgCtrl = require('../controllers/images.controller');
 
 
-router.get('/images', imgCtrl.getUserImages)
-router.post('/delete-img', imgCtrl.deleteUserImage)
+router.get('/getImages', imgCtrl.getUserImages)
+router.post('/delete-image/:id?', imgCtrl.deleteUserImage)
 router.post('/loadImgs', multipartyMiddleware, imgCtrl.uploadImage)
 
 
