@@ -22,6 +22,10 @@
     <div class="products gallery">
         <figure ng-repeat="src in images">
                 <a ui-sref="image({img: src.url})"><img ng-src="{{src.url}}"/><a>
+                <figcaption>
+                    <a  ng-click="openModal(src.url)" class="btn btn-primary">modal</a>
+                    <a ng-click="deleteImg(src.id)" class="btn btn-danger">delete</a>
+                </figcaption>
         </figure>
 
     </div>
