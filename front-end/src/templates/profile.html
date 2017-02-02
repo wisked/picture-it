@@ -19,16 +19,10 @@
         <!-- <button type="submit" ng-click="submit()"></button> -->
         <button type="button" class="btn btn-primary" ng-click="submit()">submit</button>
     </form>
+    <div class="products gallery">
+        <figure ng-repeat="src in images">
+                <a ui-sref="image({img: src.url})"><img ng-src="{{src.url}}"/><a>
+        </figure>
 
-    <!-- <div class="gallery">
-        <div ng-repeat="src in images" class="img-container">
-            <figure class="profile">
-                <!-- <a href="/image/"><img ng-src="{{src.url}}"/><a> -->
-    <!-- <a ui-sref="image({img: src.url})"><img ng-src="{{src.url}}" />
-                    <a>
-                        <a href="" ng-if="userIsAdmin"><span ng-click="delete(src.url)" class="glyphicon glyphicon-remove"></span></a>
-            </figure>
-        </div>
-
-    </div> -->
+    </div>
 </div>
