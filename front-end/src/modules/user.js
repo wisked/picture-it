@@ -22,6 +22,6 @@ angular.module('app.user', [
 
     $scope.changeProfile = function (checkBoxValue) {
         let profilePromise = UserSevice.updateProfile(checkBoxValue)
-        profilePromise.then(res => $scope.profileVisability)
+        profilePromise.then(res => $scope.profileVisability = res)
     }
 })
