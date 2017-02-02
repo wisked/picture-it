@@ -23,8 +23,10 @@ angular.module('img.service', [
     img.getImgs = function () {
         return $http.get('/api/getImages')
     }
-    img.deleteImage = function(id) {
-        return $http.post('/api/delete-image', {
+    //TODO: check work or not
+    img.deleteImage = function(id, user_id) {
+        let userId = user_id ? userId : ''
+        return $http.post('/api/delete-image/' + userId, {
             id: id
         });
     }
