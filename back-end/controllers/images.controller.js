@@ -30,6 +30,7 @@ export const getUserImages = (req, res) => {
 }
 
 export const deleteUserImage = (req, res) => {
+    cloudinary.config(clodinaryConfigs)
     let userIsAdmin = req.session.isAdmin;
 
     if(userIsAdmin && req.body.user)
@@ -43,6 +44,15 @@ export const deleteUserImage = (req, res) => {
                     'message': 'success'
                 })
         })
+
+    Image.findByIdAndRemove(req.body.id, (err, user) => {
+        if (err) {
+            return;
+        }
+        else {
+            cloudinary.uploader.destroy(user.cloudinary.public_id, result => res.status(200).send(result))
+        }
+    })
 }
 
 export const uploadImage = (req, res, next) => {
