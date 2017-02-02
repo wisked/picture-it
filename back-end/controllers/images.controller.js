@@ -33,17 +33,6 @@ export const deleteUserImage = (req, res) => {
     cloudinary.config(clodinaryConfigs)
     let userIsAdmin = req.session.isAdmin;
 
-    if(userIsAdmin && req.body.user)
-        Image.remove({
-            "url": req.body.url
-        }, (err) => {
-            if (err) {
-                return;
-            } else
-                res.status(200).json({
-                    'message': 'success'
-                })
-        })
 
     Image.findByIdAndRemove(req.body.id, (err, user) => {
         if (err) {
@@ -59,36 +48,46 @@ export const uploadImage = (req, res, next) => {
     cloudinary.config(clodinaryConfigs)
     let images = [];
     if (req.files.files.length) {
-        req.files.files.forEach(file => {
-            cloudinary.uploader.upload(file.path, function (result) {
-                console.log(result.url);
-                    if (result.url) {
-                        images.push(result.url)
-                        let image = new Image();
-                        image = {
-                            _owner: req.params.id ? req.params.id : req.session._id,
-                            cloudinary: {
-                                public_id: result.public_id,
-                                url: result.url
-                            }
+        let promise = new Promise((resolve, reject) => {
+
+            req.files.files.forEach(file => {
+                cloudinary.uploader.upload(file.path, function (result) {
+                        if (result.url) {
+                            let image = new Image();
+                            image._userId = req.params.id ? req.params.id : req.session._id
+                            image.cloudinary.public_id = result.public_id
+                            image.cloudinary.url = result.url
+
+                            image.save((err, response) => {
+                                if (err) {
+                                    resolve('mongodb err')
+                                }
+                                images.push({public_id: result.public_id, url: result.url})
+                            })
                         }
-                        image.save((err, response) => {
-                            if (err) {
-                                console.log(err);
-                            }
-                            res.status(200).send({imagesUrl: images})
-                        })
-                    }
-                    else {
-                        res.sendStatus(500);
-                    }
-            });
+                        else {
+                            reject('cloudinary err');
+                        }
+                });
+            })
+            resolve(images)
         })
+        promise
+            .then(
+                result => {
+                    console.log(result);
+                    // res.status(200).send({images: result})
+                },
+                error => res.sendStatus(500)
+            )
+
+        // res.status(200).send({images: images})
     }
     else {
         next();
     }
 }
+
 export const getImageInfo = (req, res) => {
 
 }
