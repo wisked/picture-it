@@ -24,4 +24,11 @@ angular.module('app.user', [
         let profilePromise = UserSevice.updateProfile(checkBoxValue)
         profilePromise.then(res => $scope.profileVisability = res)
     }
+
+    $scope.deleteImg = function (id) {
+        let deleteImgPromise = ImageService.deleteImage(id, $stateParams.id)
+        deleteImgPromise.then(res => {
+            $scope.images = $scope.images.filter(item => item.id != id)
+        })
+    }
 })
