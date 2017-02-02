@@ -35,7 +35,9 @@ angular.module('imgStore', [
 
 .controller('appCtrl', function($scope, $state, $rootScope, AuthService) {
     $scope.authenticated = AuthService.isAuthenticated();
-    $scope.name = $rootScope
+
+    let scope = $rootScope
+    //TODO: realised getUserName
     $scope.logout = function () {
         AuthService.logout()
         $scope.authenticated = false
