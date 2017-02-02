@@ -17,5 +17,8 @@ angular.module('user.service', [])
         return $http.get('/api/check-userProfile', {userId: userId})
                 .then(res => res.data)
     }
+    user.getUserName = function () {
+        return $http.get('/api/get-userName')
+    }
     return user
 })
