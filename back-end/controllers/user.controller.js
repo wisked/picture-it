@@ -58,3 +58,12 @@ module.exports.checkProfileVisability = (req, res) => {
         }
     })
 }
+
+module.exports.getUserName = (req, res) => {
+    let user = {
+        name: req.session.username,
+        isAdmin: req.session.isAdmin
+    }
+
+
+}
