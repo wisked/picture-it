@@ -16,6 +16,9 @@ angular.module('app.profile', [
     let profilePromise = UserSevice.checkProfileVisability()
     profilePromise.then(res => $scope.profileVisability = res.profile)
 
+    let imagesPromise = ImageService.getImgs()
+    imagesPromise.then(res => $scope.images = res.data)
+
     $scope.changeProfile = function (checkBoxValue) {
         let profilePromise = UserSevice.updateProfile(checkBoxValue)
         profilePromise.then(res => $scope.profileVisability)
