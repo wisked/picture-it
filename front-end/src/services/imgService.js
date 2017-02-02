@@ -20,9 +20,6 @@ angular.module('img.service', [
             }
         })
     }
-    img.delete = function(url) {
-        return $http.post('/api/delete', {
-            url: url
     img.getImgs = function () {
         return $http.get('/api/getImages')
     }
@@ -31,11 +28,5 @@ angular.module('img.service', [
             id: id
         });
     }
-    img.deleteUserImg = function (url, user) {
-        return $http.post('/api/deleteUserImg', {
-            url: url,
-            user: user
-        })
-     }
     return img;
 })
