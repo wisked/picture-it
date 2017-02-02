@@ -20,7 +20,7 @@ export const getUserImages = (req, res) => {
             picUrls = pic.map((item) => {
                 return {
                     id: item._id,
-                    url: item.url
+                    url: item.cloudinary.url
                 }
             })
             res.status(200).send(picUrls)
