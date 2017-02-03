@@ -21,16 +21,25 @@ angular.module('img.service', [
             }
         })
     }
+
     img.getImgs = function (user_id) {
         let userId = user_id ? user_id : ''
         return $http.get('/api/getImages/' + userId)
     }
-    //TODO: check work or not
+
     img.deleteImage = function(id, user_id) {
         let userId = user_id ? user_id : ''
         return $http.post('/api/delete-image/' + userId, {
             id: id
         });
+    }
+
+    img.addLike = function (user_id) {
+        let userId = user_id ? user_id : ''
+        return $http.post('/api/add-like/' + userId, {
+            id: user_id
+        })
+
     }
     return img;
 })
