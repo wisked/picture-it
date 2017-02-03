@@ -26,6 +26,7 @@ angular.module('img.service', [
     //TODO: check work or not
     img.deleteImage = function(id, user_id) {
         let userId = user_id ? userId : ''
+        let userId = user_id ? user_id : ''
         return $http.post('/api/delete-image/' + userId, {
             id: id
         });
