@@ -12,10 +12,12 @@ module.exports.getUsersList = (req, res) => {
     query = userIsAdmin ? {} : profile
     User.find(query, function(err, users) {
         let userMap = [];
-        userMap = users.map(item => {
-            return {
-                _id: item.id,
-                name: item.local.username
+        users.forEach(item => {
+            if (req.session._id != item.id) {
+                userMap.push({
+                    _id: item.id,
+                    name: item.local.username
+                })
             }
         })
         if (err) {
