@@ -9,7 +9,7 @@ const Image = mongoose.model('Image');
 const clodinaryConfigs = configs.cloudinary;
 
 export const getUserImages = (req, res) => {
-    const id = req.session._id
+    const id = req.params.id ? req.params.id : req.session._id
     Image.find({
         "_userId": id
     }, (err, pic) => {
