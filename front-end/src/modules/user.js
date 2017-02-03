@@ -13,9 +13,12 @@ angular.module('app.user', [
     ngFileUpload,
     angularUiBootstrap
 ])
-.controller('userCtrl', function ($scope, $rootScope, UserSevice, $stateParams) {
+.controller('userCtrl', function ($scope, $rootScope, UserSevice, $stateParams, ImageService, $uibModal) {
     $scope.header = "Edit profile"
     $scope.isAdmin = $rootScope.user.isAdmin
+    
+    ImageService.getImgs($stateParams.id)
+        .then(res => $scope.images = res.data)
 
     let profilePromise = UserSevice.checkProfileVisability($stateParams.id)
     profilePromise.then(res => $scope.profileVisability = res.profile)
