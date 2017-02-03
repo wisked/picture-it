@@ -61,9 +61,8 @@ module.exports.checkProfileVisability = (req, res) => {
 
 module.exports.getUserName = (req, res) => {
     let user = {
-        name: req.session.username,
-        isAdmin: req.session.isAdmin
+        name: req.session.user.username,
+        isAdmin: req.session.user.isAdmin
     }
-
-
+    res.status(200).send(user)
 }
