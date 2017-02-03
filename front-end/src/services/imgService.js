@@ -9,9 +9,10 @@ angular.module('img.service', [
 .factory('ImageService', function($http, Upload) {
     const img = {};
 
-    img.loadImgs = function (files) {
+    img.loadImgs = function (files, user_id) {
+        let userId = user_id ? user_id : ''
         Upload.upload({
-            url: '/api/loadImgs',
+            url: '/api/loadImgs/' + userId,
             data: {files: files}
         })
         .then(res => {
