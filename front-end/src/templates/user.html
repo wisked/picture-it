@@ -1,30 +1,32 @@
 <div>
-    <uib-accordion close-others="oneAtATime">
+    <div ng-if="isAdmin">
+        <uib-accordion close-others="oneAtATime">
 
-        <div uib-accordion-group class="panel-default" heading="{{header}}">
-            <h3>Profile is visible {{profileVisability}}</h3>
-            <input type="checkbox" name="profile" ng-model="profileVisability" ng-change="changeProfile(profileVisability)">
-            <br>
-            <!-- <button type="button" class="btn btn-default btn-sm" ng-click="addItem()">Add Item</button> -->
-        </div>
-
-    </uib-accordion>
-
-    <form name="form">
-        <div class="panel panel-primary" ngf-select ng-model="files" ngf-multiple="true">
-            <div class="panel-body">
-                Click to load Image
+            <div uib-accordion-group class="panel-default" heading="{{header}}">
+                <h3>Profile is visible {{profileVisability}}</h3>
+                <input type="checkbox" name="profile" ng-model="profileVisability" ng-change="changeProfile(profileVisability)">
+                <br>
+                <!-- <button type="button" class="btn btn-default btn-sm" ng-click="addItem()">Add Item</button> -->
             </div>
-        </div>
-        <!-- <button type="submit" ng-click="submit()"></button> -->
-        <button type="button" class="btn btn-primary" ng-click="submit()">submit</button>
-    </form>
+
+        </uib-accordion>
+
+        <form name="form">
+            <div class="panel panel-primary" ngf-select ng-model="files" ngf-multiple="true">
+                <div class="panel-body">
+                    Click to load Image
+                </div>
+            </div>
+            <!-- <button type="submit" ng-click="submit()"></button> -->
+            <button type="button" class="btn btn-primary" ng-click="submit()">submit</button>
+        </form>
+    </div>
     <div class="products gallery">
         <figure ng-repeat="src in images">
                 <a ui-sref="image({img: src.url})"><img ng-src="{{src.url}}"/><a>
                 <figcaption>
-                    <a  ng-click="openModal()" class="btn btn-primary">modal</a>
-                    <a ng-click="deleteImg(src.id)" class="btn btn-danger">delete</a>
+                    <a  ng-click="openModal(src.url)" class="btn btn-primary">modal</a>
+                    <a ng-click="deleteImg(src.id)" class="btn btn-danger" ng-if="isAdmin">delete</a>
                 </figcaption>
         </figure>
 
