@@ -17,7 +17,10 @@ const createAdmin = (req, res) => {
             let token;
             token = user.generateJwt();
             req.session._id = response._doc._id;
-            req.session.isAdmin = response._doc.isAdmin;
+            req.session.user = {
+                isAdmin: user._doc.isAdmin,
+                username: user._doc.local.username
+            }
             req.session.token = token;
             res.status(201).json({
                 "token": token,
@@ -55,7 +58,10 @@ export const register = (req, res) => {
             } else {
                 let token = user.generateJwt();
                 req.session._id = response._doc._id;
-                req.session.isAdmin = response._doc.isAdmin
+                req.session.user = {
+                    isAdmin: user._doc.isAdmin,
+                    username: user._doc.local.username
+                }
                 req.session.token = token
                 res.status(200).json({
                     "token": token,
@@ -80,9 +86,10 @@ export const login = (req, res) => {
             if (user) {
                 let token = user.generateJwt()
                 req.session._id = user._doc._id;
-                req.session.isAdmin = user._doc.isAdmin;
                 req.session.user = {
                     isAdmin: user._doc.isAdmin,
+                    username: user._doc.local.username
+                }
                 req.session.token = token;
                 res.status(200).json({
                     "token": token,
