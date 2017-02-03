@@ -52,5 +52,10 @@ export default angular.module('auth.service', [])
 
     }
 
+    auth.getUserName = function () {
+        $http.get('/api/get-userName')
+            .then(res => $rootScope.user = res.data)
+    }
+
     return auth;
 })
