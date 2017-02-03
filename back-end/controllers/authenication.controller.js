@@ -81,6 +81,8 @@ export const login = (req, res) => {
                 let token = user.generateJwt()
                 req.session._id = user._doc._id;
                 req.session.isAdmin = user._doc.isAdmin;
+                req.session.user = {
+                    isAdmin: user._doc.isAdmin,
                 req.session.token = token;
                 res.status(200).json({
                     "token": token,
