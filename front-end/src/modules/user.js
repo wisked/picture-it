@@ -31,4 +31,13 @@ angular.module('app.user', [
             $scope.images = $scope.images.filter(item => item.id != id)
         })
     }
+
+    $scope.openModal = function (url) {
+        let modalInstance = $uibModal.open({
+            templateUrl: '../../src/templates/image-modal.html',
+            controller: function($scope) {
+                $scope.url = url
+            }
+        })
+    }
 })
