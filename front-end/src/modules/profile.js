@@ -34,13 +34,15 @@ angular.module('app.profile', [
             $scope.images = $scope.images.filter(item => item.id != id)
         })
     }
-
+    //TODO: add css class
     $scope.openModal = function (url) {
         let modalInstance = $uibModal.open({
             templateUrl: '../../src/templates/image-modal.html',
             controller: function($scope) {
                 $scope.url = url
-            }
+            },
+            size: 'lg',
+            openedClass: ''
         })
     }
 })
