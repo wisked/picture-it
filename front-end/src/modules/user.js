@@ -16,7 +16,7 @@ angular.module('app.user', [
 .controller('userCtrl', function ($scope, $rootScope, UserSevice, $stateParams, ImageService, $uibModal) {
     $scope.header = "Edit profile"
     $scope.isAdmin = $rootScope.user.isAdmin
-    
+
     ImageService.getImgs($stateParams.id)
         .then(res => $scope.images = res.data)
 
@@ -26,6 +26,11 @@ angular.module('app.user', [
     $scope.changeProfile = function (checkBoxValue) {
         let profilePromise = UserSevice.updateProfile(checkBoxValue)
         profilePromise.then(res => $scope.profileVisability = res)
+    }
+    
+    $scope.submit = function () {
+        let imagesPromise = ImageService.loadImgs($scope.files)
+        imagesPromise.then(res => $scope.images = res)
     }
 
     $scope.deleteImg = function (id) {
