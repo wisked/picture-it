@@ -20,12 +20,12 @@ angular.module('img.service', [
             }
         })
     }
-    img.getImgs = function () {
-        return $http.get('/api/getImages')
+    img.getImgs = function (user_id) {
+        let userId = user_id ? user_id : ''
+        return $http.get('/api/getImages/' + userId)
     }
     //TODO: check work or not
     img.deleteImage = function(id, user_id) {
-        let userId = user_id ? userId : ''
         let userId = user_id ? user_id : ''
         return $http.post('/api/delete-image/' + userId, {
             id: id
