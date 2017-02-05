@@ -47,44 +47,20 @@ export const deleteUserImage = (req, res) => {
 export const uploadImage = (req, res, next) => {
     cloudinary.config(clodinaryConfigs)
     let images = [];
+    let promiseArray = [];
     if (req.files.files.length) {
-        let promise = new Promise((resolve, reject) => {
-
-            req.files.files.forEach(file => {
-                cloudinary.uploader.upload(file.path, function (result) {
-                        if (result.url) {
-                            let image = new Image();
-                            image._userId = req.params.id ? req.params.id : req.session._id
-                            image.cloudinary.public_id = result.public_id
-                            image.cloudinary.url = result.url
-
-                            image.save((err, response) => {
-                                if (err) {
-                                    resolve('mongodb err')
-                                }
-                                images.push({public_id: result.public_id, url: result.url})
-                            })
-                        }
-                        else {
-                            reject('cloudinary err');
-                        }
-                });
+        if (req.params.id && req.session.user.isAdmin || req.session._id) {
+            req.files.files.forEach(img => {
+                let id = req.params.id ? req.params.id : req.session._id
+                promiseArray.push(loadImage(img, id))
             })
-            resolve(images)
-        })
-        promise
-            .then(
-                result => {
-                    console.log(result);
-                    // res.status(200).send({images: result})
-                },
-                error => res.sendStatus(500)
-            )
-
-        // res.status(200).send({images: images})
+            Promise.all(promiseArray).then(result => {
+                res.status(201).send(result)
+            })
+        }
     }
     else {
-        next();
+        next()
     }
 }
 
@@ -92,31 +68,29 @@ export const getImageInfo = (req, res) => {
 
 }
 
-// const loadImage = (req, res) => {
-//     let promiseAray = [];
+const loadImage = (img, id) => {
 
-//     promiseAray.push(new Promise((resolve, reject) => {
-//         cloudinary.uploader.upload(file.path, function (result) {
-//             if (result.url) {
-//                 let image = new Image();
-//                 image._userId = req.params.id ? req.params.id : req.session._id
-//                 image.cloudinary.public_id = result.public_id
-//                 image.cloudinary.url = result.url
+    return new Promise((resolve, reject) => {
+        cloudinary.uploader.upload(img.path, function (result) {
+                if (result.url) {
+                    let image = new Image();
+                    image._userId = id
+                    image.cloudinary.public_id = result.public_id
+                    image.cloudinary.url = result.url
 
-//                 image.save((err, response) => {
-//                     if (err) {
-//                         reject('mongodb err')
-//                     }
-//                 })
-//             }
-//             else {
-//                 reject('cloudinary err');
-//             }
-//         });
-//     }))
-
-    
-// }
+                    image.save((err, response) => {
+                        if (err) {
+                            reject('mongodb err')
+                        }
+                        resolve({public_id: result.public_id, url: result.url})
+                    })
+                }
+                else {
+                    reject('cloudinary err');
+                }
+        });
+    })
+}
 
 const findAndRemove = (req, res) => {
     Image.findByIdAndRemove(req.body.id, (err, user) => {
