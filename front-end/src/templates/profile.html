@@ -19,6 +19,9 @@
         <button type="button" class="btn btn-primary" ng-click="submit()">submit</button>
     </form>
     <br>
+    <uib-progressbar max="max" value="dynamic" ng-if="files">
+        <span style="color:white; white-space:nowrap;">{{dynamic}} / {{max}}</span>
+    </uib-progressbar>
     <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')" close="closeAlert($index)">{{alert.msg}}</div>
     <div class="products gallery">
         <figure ng-repeat="src in images">

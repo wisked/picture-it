@@ -1,6 +1,7 @@
 import angular from 'angular';
 import angularUiBootstrap from 'angular-ui-bootstrap';
 import ngFileUpload from 'ng-file-upload';
+import uiRouter from 'angular-ui-router';
 
 import '../services/userService';
 import '../services/imgService.js'
@@ -9,17 +10,25 @@ angular.module('app.profile', [
     'user.service',
     'img.service',
     ngFileUpload,
-    angularUiBootstrap
+    angularUiBootstrap,
+    uiRouter
 ])
-.controller('profileCtrl', function($scope, UserSevice, ImageService, $uibModal) {
+.controller('profileCtrl', function($scope, UserSevice, ImageService, $uibModal, $stateParams) {
     $scope.header = "Edit profile"
+    $scope.images = []
+    $scope.alerts = [];
+    $scope.max = 100
+    $scope.dynamic = 0
+
     let profilePromise = UserSevice.checkProfileVisability()
     profilePromise.then(res => $scope.profileVisability = res.profile)
 
-    let imagesPromise = ImageService.getImgs()
-    imagesPromise.then(res => $scope.images = res.data)
-
-    $scope.alerts = [];
+    let getImagesPromise = ImageService.getImgs()
+    getImagesPromise.then(res => {
+        res.data.map(img => {
+            $scope.images.push(img)
+        })
+    })
     
     $scope.changeProfile = function (checkBoxValue) {
         let profilePromise = UserSevice.updateProfile(checkBoxValue)
@@ -27,11 +36,18 @@ angular.module('app.profile', [
     }
 
     $scope.submit = function () {
-        let imagesPromise = ImageService.loadImgs($scope.files)
-        imagesPromise.then(res => $scope.images = res)
+        let imagesPromise = ImageService.loadImgs($scope.files, $stateParams.id)
+        imagesPromise.then(res => {
+
+            res.map(img => {
+                $scope.dynamic += parseFloat(100 / res.length)
+                $scope.images.unshift(img)
+            })
+        })
     }
+
     $scope.deleteImg = function (id) {
-        let deleteImgPromise = ImageService.deleteImage(id)
+        let deleteImgPromise = ImageService.deleteImage(id, $stateParams.id)
         deleteImgPromise.then(res => {
             $scope.images = $scope.images.filter(item => item.id != id)
             $scope.alerts.push(
@@ -41,8 +57,8 @@ angular.module('app.profile', [
     }
     $scope.closeAlert = function(index) {
         $scope.alerts.splice(index, 1);
-  };
-    //TODO: add css class
+  }
+
     $scope.openModal = function (url) {
         let modalInstance = $uibModal.open({
             templateUrl: '../../src/templates/image-modal.html',

@@ -20,6 +20,10 @@
             <!-- <button type="submit" ng-click="submit()"></button> -->
             <button type="button" class="btn btn-primary" ng-click="submit()">submit</button>
         </form>
+        <br>
+        <uib-progressbar max="max" value="dynamic" ng-if="files">
+            <span style="color:white; white-space:nowrap;">{{dynamic}} / {{max}}</span>
+        </uib-progressbar>
     </div>
     <div class="products gallery">
         <figure ng-repeat="src in images">
