@@ -11,12 +11,12 @@ angular.module('img.service', [
 
     img.loadImgs = function (files, user_id) {
         let userId = user_id ? user_id : ''
-        Upload.upload({
+        return Upload.upload({
             url: '/api/loadImgs/' + userId,
             data: {files: files}
         })
         .then(res => {
-            if (res.status = 200) {
+            if (res.status = 201) {
                 return res.data;
             }
         })
