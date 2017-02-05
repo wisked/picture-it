@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "a00dc6eb7df36cd15efb"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "3e3de1dbf6e2ba101edf"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotMainModule = true; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -713,7 +713,7 @@
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(12);
+__webpack_require__(13);
 module.exports = angular;
 
 /***/ }),
@@ -5537,12 +5537,19 @@ if (typeof module !== "undefined" && typeof exports !== "undefined" && module.ex
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(11);
+__webpack_require__(12);
 
 module.exports = 'ui.bootstrap';
 
 /***/ }),
 /* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(14);
+module.exports = 'ngFileUpload';
+
+/***/ }),
+/* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5562,11 +5569,14 @@ __WEBPACK_IMPORTED_MODULE_0_angular___default.a.module('user.service', []).facto
     user.checkProfileVisability = function (userId) {
         return $http.get('/api/check-userProfile', { userId: userId }).then(res => res.data);
     };
+    user.getUserName = function () {
+        return $http.get('/api/get-userName');
+    };
     return user;
 });
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5621,18 +5631,63 @@ __WEBPACK_IMPORTED_MODULE_0_angular___default.a.module('user.service', []).facto
         $http.get('/api/logout').then(res => callback());
     };
 
+    auth.getUserName = function () {
+        $http.get('/api/get-userName').then(res => $rootScope.user = res.data);
+    };
+
     return auth;
 });
 
 /***/ }),
-/* 5 */
-/***/ (function(module, exports, __webpack_require__) {
+/* 6 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-__webpack_require__(13);
-module.exports = 'ngFileUpload';
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_angular__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_angular___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_angular__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ng_file_upload__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ng_file_upload___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_ng_file_upload__);
+
+
+
+__WEBPACK_IMPORTED_MODULE_0_angular___default.a.module('img.service', [__WEBPACK_IMPORTED_MODULE_1_ng_file_upload___default.a]).factory('ImageService', function ($http, Upload) {
+    const img = {};
+
+    img.loadImgs = function (files, user_id) {
+        let userId = user_id ? user_id : '';
+        Upload.upload({
+            url: '/api/loadImgs/' + userId,
+            data: { files: files }
+        }).then(res => {
+            if (res.status = 200) {
+                return res.data;
+            }
+        });
+    };
+
+    img.getImgs = function (user_id) {
+        let userId = user_id ? user_id : '';
+        return $http.get('/api/getImages/' + userId);
+    };
+
+    img.deleteImage = function (id, user_id) {
+        let userId = user_id ? user_id : '';
+        return $http.post('/api/delete-image/' + userId, {
+            id: id
+        });
+    };
+
+    img.addLike = function (user_id) {
+        let userId = user_id ? user_id : '';
+        return $http.post('/api/add-like/' + userId, {
+            id: user_id
+        });
+    };
+    return img;
+});
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5680,7 +5735,7 @@ module.exports = 'ngFileUpload';
 }]);
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5688,7 +5743,7 @@ module.exports = 'ngFileUpload';
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_angular___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_angular__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular_ui_router__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular_ui_router___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_angular_ui_router__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_authService__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_authService__ = __webpack_require__(5);
 
 
 
@@ -5715,7 +5770,7 @@ __WEBPACK_IMPORTED_MODULE_0_angular___default.a.module('app.auth', ['auth.servic
 });
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -5723,7 +5778,7 @@ __WEBPACK_IMPORTED_MODULE_0_angular___default.a.module('app.auth', ['auth.servic
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_angular___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_angular__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular_ui_bootstrap__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular_ui_bootstrap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_angular_ui_bootstrap__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_userService__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_userService__ = __webpack_require__(4);
 
 
 
@@ -5735,41 +5790,6 @@ __WEBPACK_IMPORTED_MODULE_0_angular___default.a.module('app.home', [__WEBPACK_IM
 });
 
 /***/ }),
-/* 9 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_angular__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_angular___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_angular__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular_ui_bootstrap__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular_ui_bootstrap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_angular_ui_bootstrap__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng_file_upload__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng_file_upload___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_ng_file_upload__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_userService__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_imgService_js__ = __webpack_require__(14);
-
-
-
-
-
-
-
-__WEBPACK_IMPORTED_MODULE_0_angular___default.a.module('app.profile', ['user.service', 'img.service', __WEBPACK_IMPORTED_MODULE_2_ng_file_upload___default.a, __WEBPACK_IMPORTED_MODULE_1_angular_ui_bootstrap___default.a]).controller('profileCtrl', function ($scope, UserSevice, ImageService) {
-    $scope.header = "Edit profile";
-    let profilePromise = UserSevice.checkProfileVisability();
-    profilePromise.then(res => $scope.profileVisability = res.profile);
-
-    $scope.changeProfile = function (checkBoxValue) {
-        let profilePromise = UserSevice.updateProfile(checkBoxValue);
-        profilePromise.then(res => $scope.profileVisability);
-    };
-
-    $scope.submit = function () {
-        let imagesPromise = ImageService.loadImgs($scope.files);
-    };
-});
-
-/***/ }),
 /* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -5778,13 +5798,76 @@ __WEBPACK_IMPORTED_MODULE_0_angular___default.a.module('app.profile', ['user.ser
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_angular___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_angular__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular_ui_bootstrap__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular_ui_bootstrap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_angular_ui_bootstrap__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng_file_upload__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng_file_upload__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng_file_upload___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_ng_file_upload__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_userService__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_imgService_js__ = __webpack_require__(6);
+
+
+
+
+
+
+
+__WEBPACK_IMPORTED_MODULE_0_angular___default.a.module('app.profile', ['user.service', 'img.service', __WEBPACK_IMPORTED_MODULE_2_ng_file_upload___default.a, __WEBPACK_IMPORTED_MODULE_1_angular_ui_bootstrap___default.a]).controller('profileCtrl', function ($scope, UserSevice, ImageService, $uibModal) {
+    $scope.header = "Edit profile";
+    let profilePromise = UserSevice.checkProfileVisability();
+    profilePromise.then(res => $scope.profileVisability = res.profile);
+
+    let imagesPromise = ImageService.getImgs();
+    imagesPromise.then(res => $scope.images = res.data);
+
+    $scope.alerts = [];
+
+    $scope.changeProfile = function (checkBoxValue) {
+        let profilePromise = UserSevice.updateProfile(checkBoxValue);
+        profilePromise.then(res => $scope.profileVisability);
+    };
+
+    $scope.submit = function () {
+        let imagesPromise = ImageService.loadImgs($scope.files);
+        imagesPromise.then(res => $scope.images = res);
+    };
+    $scope.deleteImg = function (id) {
+        let deleteImgPromise = ImageService.deleteImage(id);
+        deleteImgPromise.then(res => {
+            $scope.images = $scope.images.filter(item => item.id != id);
+            $scope.alerts.push({ type: 'danger', msg: 'Image was deleted' });
+        });
+    };
+    $scope.closeAlert = function (index) {
+        $scope.alerts.splice(index, 1);
+    };
+    //TODO: add css class
+    $scope.openModal = function (url) {
+        let modalInstance = $uibModal.open({
+            templateUrl: '../../src/templates/image-modal.html',
+            controller: function ($scope) {
+                $scope.url = url;
+            },
+            size: 'lg',
+            // windowClass: 'img {width: 100%;' +
+            //                 'height: 100%;}',
+            openedClass: 'imgModel'
+        });
+    };
+});
+
+/***/ }),
+/* 11 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_angular__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_angular___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_angular__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular_ui_bootstrap__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular_ui_bootstrap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_angular_ui_bootstrap__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng_file_upload__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ng_file_upload___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_ng_file_upload__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angular_ui_router__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angular_ui_router___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_angular_ui_router__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_userService__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_imgService__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_imgService___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__services_imgService__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_userService__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__services_imgService__ = __webpack_require__(6);
 
 
 
@@ -5793,21 +5876,44 @@ __WEBPACK_IMPORTED_MODULE_0_angular___default.a.module('app.profile', ['user.ser
 
 
 
-__WEBPACK_IMPORTED_MODULE_0_angular___default.a.module('app.user', ['user.service', 'img.service', __WEBPACK_IMPORTED_MODULE_3_angular_ui_router___default.a, __WEBPACK_IMPORTED_MODULE_2_ng_file_upload___default.a, __WEBPACK_IMPORTED_MODULE_1_angular_ui_bootstrap___default.a]).controller('userCtrl', function ($scope, $rootScope, UserSevice, $stateParams) {
+__WEBPACK_IMPORTED_MODULE_0_angular___default.a.module('app.user', ['user.service', 'img.service', __WEBPACK_IMPORTED_MODULE_3_angular_ui_router___default.a, __WEBPACK_IMPORTED_MODULE_2_ng_file_upload___default.a, __WEBPACK_IMPORTED_MODULE_1_angular_ui_bootstrap___default.a]).controller('userCtrl', function ($scope, $rootScope, UserSevice, $stateParams, ImageService, $uibModal) {
     $scope.header = "Edit profile";
     $scope.isAdmin = $rootScope.user.isAdmin;
+
+    ImageService.getImgs($stateParams.id).then(res => $scope.images = res.data);
 
     let profilePromise = UserSevice.checkProfileVisability($stateParams.id);
     profilePromise.then(res => $scope.profileVisability = res.profile);
 
     $scope.changeProfile = function (checkBoxValue) {
         let profilePromise = UserSevice.updateProfile(checkBoxValue);
-        profilePromise.then(res => $scope.profileVisability);
+        profilePromise.then(res => $scope.profileVisability = res);
+    };
+
+    $scope.submit = function () {
+        let imagesPromise = ImageService.loadImgs($scope.files);
+        imagesPromise.then(res => $scope.images = res);
+    };
+
+    $scope.deleteImg = function (id) {
+        let deleteImgPromise = ImageService.deleteImage(id, $stateParams.id);
+        deleteImgPromise.then(res => {
+            $scope.images = $scope.images.filter(item => item.id != id);
+        });
+    };
+
+    $scope.openModal = function (url) {
+        let modalInstance = $uibModal.open({
+            templateUrl: '../../src/templates/image-modal.html',
+            controller: function ($scope) {
+                $scope.url = url;
+            }
+        });
     };
 });
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports) {
 
 /*
@@ -13138,7 +13244,7 @@ angular.module('ui.bootstrap.typeahead').run(function () {
 });
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports) {
 
 /**
@@ -30444,7 +30550,7 @@ if(window.console){console.log('WARNING: Tried to load angular more than once.')
 bindJQuery();publishExternalAPI(angular);angular.module("ngLocale",[],["$provide",function($provide){var PLURAL_CATEGORY={ZERO:"zero",ONE:"one",TWO:"two",FEW:"few",MANY:"many",OTHER:"other"};function getDecimals(n){n=n+'';var i=n.indexOf('.');return i==-1?0:n.length-i-1;}function getVF(n,opt_precision){var v=opt_precision;if(undefined===v){v=Math.min(getDecimals(n),3);}var base=Math.pow(10,v);var f=(n*base|0)%base;return{v:v,f:f};}$provide.value("$locale",{"DATETIME_FORMATS":{"AMPMS":["AM","PM"],"DAY":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"ERANAMES":["Before Christ","Anno Domini"],"ERAS":["BC","AD"],"FIRSTDAYOFWEEK":6,"MONTH":["January","February","March","April","May","June","July","August","September","October","November","December"],"SHORTDAY":["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],"SHORTMONTH":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],"STANDALONEMONTH":["January","February","March","April","May","June","July","August","September","October","November","December"],"WEEKENDRANGE":[5,6],"fullDate":"EEEE, MMMM d, y","longDate":"MMMM d, y","medium":"MMM d, y h:mm:ss a","mediumDate":"MMM d, y","mediumTime":"h:mm:ss a","short":"M/d/yy h:mm a","shortDate":"M/d/yy","shortTime":"h:mm a"},"NUMBER_FORMATS":{"CURRENCY_SYM":"$","DECIMAL_SEP":".","GROUP_SEP":",","PATTERNS":[{"gSize":3,"lgSize":3,"maxFrac":3,"minFrac":0,"minInt":1,"negPre":"-","negSuf":"","posPre":"","posSuf":""},{"gSize":3,"lgSize":3,"maxFrac":2,"minFrac":2,"minInt":1,"negPre":"-\u00a4","negSuf":"","posPre":"\u00a4","posSuf":""}]},"id":"en-us","localeID":"en_US","pluralCat":function(n,opt_precision){var i=n|0;var vf=getVF(n,opt_precision);if(i==1&&vf.v==0){return PLURAL_CATEGORY.ONE;}return PLURAL_CATEGORY.OTHER;}});}]);jqLite(function(){angularInit(window.document,bootstrap);});})(window);!window.angular.$$csp().noInlineStyle&&window.angular.element(document.head).prepend('<style type="text/css">@charset "UTF-8";[ng\\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>');
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports) {
 
 /**!
@@ -33293,45 +33399,6 @@ ngFileUpload.service('UploadExif', ['UploadResize', '$q', function (UploadResize
 }]);
 
 /***/ }),
-/* 14 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_angular__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_angular___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_angular__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ng_file_upload__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ng_file_upload___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_ng_file_upload__);
-
-
-
-__WEBPACK_IMPORTED_MODULE_0_angular___default.a.module('img.service', [__WEBPACK_IMPORTED_MODULE_1_ng_file_upload___default.a]).factory('ImageService', function ($http, Upload) {
-    const img = {};
-
-    img.loadImgs = function (files) {
-        Upload.upload({
-            url: '/api/loadImgs',
-            data: { files: files }
-        }).then(res => {
-            if (res.status = 200) {
-                return res.data;
-            }
-        });
-    };
-    img.delete = function (url) {
-        return $http.post('/api/delete', {
-            url: url
-        });
-    };
-    img.deleteUserImg = function (url, user) {
-        return $http.post('/api/deleteUserImg', {
-            url: url,
-            user: user
-        });
-    };
-    return img;
-});
-
-/***/ }),
 /* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -33341,12 +33408,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_angular___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_angular__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular_ui_router__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular_ui_router___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_angular_ui_router__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_auth__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_home__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_user__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_profile__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services_authService__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_config__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__modules_auth__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__modules_home__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__modules_user__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__modules_profile__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services_authService__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_config__ = __webpack_require__(7);
 
 
 
@@ -33369,7 +33436,9 @@ __WEBPACK_IMPORTED_MODULE_0_angular___default.a.module('imgStore', ['app.config'
     });
 }]).controller('appCtrl', function ($scope, $state, $rootScope, AuthService) {
     $scope.authenticated = AuthService.isAuthenticated();
-    $scope.name = $rootScope;
+    if ($scope.authenticated) {
+        AuthService.getUserName();
+    }
     $scope.logout = function () {
         AuthService.logout();
         $scope.authenticated = false;

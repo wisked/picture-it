@@ -92,6 +92,32 @@ export const getImageInfo = (req, res) => {
 
 }
 
+// const loadImage = (req, res) => {
+//     let promiseAray = [];
+
+//     promiseAray.push(new Promise((resolve, reject) => {
+//         cloudinary.uploader.upload(file.path, function (result) {
+//             if (result.url) {
+//                 let image = new Image();
+//                 image._userId = req.params.id ? req.params.id : req.session._id
+//                 image.cloudinary.public_id = result.public_id
+//                 image.cloudinary.url = result.url
+
+//                 image.save((err, response) => {
+//                     if (err) {
+//                         reject('mongodb err')
+//                     }
+//                 })
+//             }
+//             else {
+//                 reject('cloudinary err');
+//             }
+//         });
+//     }))
+
+    
+// }
+
 const findAndRemove = (req, res) => {
     Image.findByIdAndRemove(req.body.id, (err, user) => {
         if (err) {

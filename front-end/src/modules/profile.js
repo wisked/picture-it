@@ -19,6 +19,8 @@ angular.module('app.profile', [
     let imagesPromise = ImageService.getImgs()
     imagesPromise.then(res => $scope.images = res.data)
 
+    $scope.alerts = [];
+    
     $scope.changeProfile = function (checkBoxValue) {
         let profilePromise = UserSevice.updateProfile(checkBoxValue)
         profilePromise.then(res => $scope.profileVisability)
@@ -32,8 +34,14 @@ angular.module('app.profile', [
         let deleteImgPromise = ImageService.deleteImage(id)
         deleteImgPromise.then(res => {
             $scope.images = $scope.images.filter(item => item.id != id)
+            $scope.alerts.push(
+                { type: 'danger', msg: 'Image was deleted' }
+            )
         })
     }
+    $scope.closeAlert = function(index) {
+        $scope.alerts.splice(index, 1);
+  };
     //TODO: add css class
     $scope.openModal = function (url) {
         let modalInstance = $uibModal.open({
@@ -42,7 +50,9 @@ angular.module('app.profile', [
                 $scope.url = url
             },
             size: 'lg',
-            openedClass: ''
+            // windowClass: 'img {width: 100%;' +
+            //                 'height: 100%;}',
+            openedClass: 'imgModel'
         })
     }
 })
