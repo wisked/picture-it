@@ -10,14 +10,15 @@ angular.module('user.service', [])
                 profile: profile,
                 userId: id
             })
-            .then(response => response.data)
+            .then(response => response.data.profile)
     }
     user.getUserList = function () {
         return $http.get('/api/get-usersList')
                 .then(res => res.data)
     }
     user.checkProfileVisability = function (userId) {
-        return $http.get('/api/check-userProfile', {userId: userId})
+        let id = userId ? userId : ''
+        return $http.get('/api/check-userProfile/' + id)
                 .then(res => res.data)
     }
     user.getUserName = function () {
