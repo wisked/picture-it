@@ -32,22 +32,25 @@ module.exports.getUsersList = (req, res) => {
 }
 
 module.exports.setUserVisibility = (req, res) => {
-    User.findOne({
-        _id: req.session._id
-    }, (err, user) => {
-        if(err) {
-            return;
-        }
-        else {
-            user.profileIsVisible = req.body.profile
-            user.save()
-            res.sendStatus(200)
-        }
-    })
+    let id = req.body.userId ? req.body.userId : req.session._id
+    if (req.body.userId && req.session.user.isAdmin || req.session._id) {
+        User.findOne({
+            _id: id
+        }, (err, user) => {
+            if(err) {
+                return;
+            }
+            else {
+                user.profileIsVisible = req.body.profile
+                user.save()
+                res.status(200).send({profile: user.profileIsVisible})
+            }
+        })
+    }
 }
 module.exports.checkProfileVisability = (req, res) => {
     let id = req.params.id ? req.params.id : req.session._id
-    
+
     if (req.params.id & req.session.user.isAdmin || req.session._id) {
         User.findOne({
             _id: id
