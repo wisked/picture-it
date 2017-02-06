@@ -20,7 +20,7 @@ angular.module('app.user', [
     $scope.max = 100
     $scope.isAdmin = $rootScope.user.isAdmin
 
-    let getImagesPromise = ImageService.getImgs()
+    let getImagesPromise = ImageService.getImgs($stateParams.id)
     getImagesPromise.then(res => {
         res.data.map(img => {
             $scope.images.push(img)
