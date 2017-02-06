@@ -97,6 +97,9 @@ export const login = (req, res) => {
                     "name": user._doc.local.username
                 })
             }
+            else {
+                res.status(403).send(info)
+            }
         })(req, res);
     }
 }
