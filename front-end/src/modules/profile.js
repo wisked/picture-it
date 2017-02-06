@@ -18,7 +18,6 @@ angular.module('app.profile', [
     $scope.images = []
     $scope.alerts = [];
     $scope.max = 100
-    $scope.dynamic = 0
 
     let profilePromise = UserSevice.checkProfileVisability()
     profilePromise.then(res => $scope.profileVisability = res.profile)
@@ -29,7 +28,10 @@ angular.module('app.profile', [
             $scope.images.push(img)
         })
     })
-    
+    $scope.$watch('files', () => {
+        $scope.dynamic = 0
+
+    })
     $scope.changeProfile = function (checkBoxValue) {
         let profilePromise = UserSevice.updateProfile(checkBoxValue)
         profilePromise.then(res => $scope.profileVisability)
@@ -40,7 +42,7 @@ angular.module('app.profile', [
         imagesPromise.then(res => {
 
             res.map(img => {
-                $scope.dynamic += parseFloat(100 / res.length)
+                $scope.dynamic += parseInt(100 / res.length)
                 $scope.images.unshift(img)
             })
         })
