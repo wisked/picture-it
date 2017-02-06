@@ -16,7 +16,7 @@
                 Click to load Image
             </div>
         </div>
-        <button type="button" class="btn btn-primary" ng-click="submit()">submit</button>
+        <button ng-disabled="!files" type="button" class="btn btn-primary" ng-click="submit()">submit</button>
     </form>
     <br>
     <uib-progressbar max="max" value="dynamic" ng-if="files">
