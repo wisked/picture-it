@@ -1,0 +1,40 @@
+<div>
+    <div ng-if="isAdmin">
+        <uib-accordion close-others="oneAtATime">
+
+            <div uib-accordion-group class="panel-default" heading="{{header}}">
+                <h3>Profile is visible {{profileVisability}}</h3>
+                <input type="checkbox" name="profile" ng-model="profileVisability" ng-change="changeProfile(profileVisability)">
+                <br>
+                <!-- <button type="button" class="btn btn-default btn-sm" ng-click="addItem()">Add Item</button> -->
+            </div>
+
+        </uib-accordion>
+
+        <form name="form">
+            <div class="panel panel-primary" ngf-select ng-model="files" ngf-multiple="true">
+                <div class="panel-body">
+                    Click to load Image
+                </div>
+            </div>
+            <!-- <button type="submit" ng-click="submit()"></button> -->
+            <button ng-disabled="!files" type="button" class="btn btn-primary" ng-click="submit()">submit</button>
+        </form>
+        <br>
+        <uib-progressbar max="max" value="dynamic" ng-if="files">
+            <span style="color:white; white-space:nowrap;">{{dynamic}} / {{max}}</span>
+        </uib-progressbar>
+    </div>
+    <div class="products gallery">
+        <figure ng-repeat="src in images track by $index">
+                <a ui-sref="image({img: src.url})"><img ng-src="{{src.url}}"/><a>
+                <figcaption>
+                    <a  ng-click="openModal(src.url)" class="btn btn-primary">modal</a>
+                    <a ng-click="deleteImg(src.id)" class="btn btn-danger" ng-if="isAdmin">delete</a>
+                    <a ng-click="addLike(src.id, $index)" class="btn btn-success">
+                        <span class="glyphicon glyphicon-thumbs-up"></span> Like {{src.likes}}</a>
+                </figcaption>
+        </figure>
+
+    </div>
+</div>

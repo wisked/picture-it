@@ -1,45 +1,53 @@
-// IMPORTING PACKAGES
-const http = require('http'),
-      path = require('path');
+const path = require('path');
+const express = require('express');
+const bodyParser = require('body-parser');
+const morgan = require('morgan');
+const expressSession = require('express-session');
+import passport from 'passport';
 
-const express = require('express'),
-      session = require('express-session'),
-      favicon = require('serve-favicon'),
-      bodyParser = require('body-parser'),
-      logger = require('morgan'),
-      mongoose = require('mongoose');
-      passport = require('passport');
+const db = require('./back-end/models/utils/DataBaseUtils')
 
-const config = require('./server/config/server-config');
+const userRoutes = require('./back-end/routes/user.routes')
+const imageRoutes = require('./back-end/routes/image.routes')
+const authRoutes = require('./back-end/routes/authenication.routes')
 
-// IMPORT DB DATA
-require('./server/models/db');
-require('./server/config/passport-config');
+const configs = require('./etc/config.json')
 
-// CREATING EXPRESS
-const app = express();
+const app = express()
 
-// SETTING MIDDLEWARE
-app.set('port', config.port || 3000)
-app.use(session({ resave: true, saveUninitialized: true, secret: 'ais-novations' }));
-app.use(favicon(__dirname + '/client/assets/favicon.ico'));
-app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
-app.use(bodyParser.json({ limit: '50mb' }));
-app.use(logger('dev'));
+db.setUpConnection()
+import './back-end/models/User'
+import './back-end/models/Image'
 
-// IMPORTING ROUTES
-require('./server/routes/home-routes.js')(app);
-require('./server/routes/authentication-routes.js')(app);
+import './back-end/controllers/configs/passport';
 
-// SERVE STATIC FOLDER
-app.use(express.static(path.join(__dirname, '/client')));
+app.set("port", configs.serverPort || 3000);
+app.use(express.static(path.join(__dirname + '/front-end')))
+app.use(expressSession({
+    secret: "secret",
+    resave: false,
+    saveUninitialized: true
+}))
+app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.json());
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(morgan('dev'))
 
-// SERVE INDEX.HTML
-app.get('/', function(req, res) {
-    res.sendFile('./client/index.html');
+
+require('express-debug')(app, {
+
 });
 
-// RUN SERVER
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
-});
+
+app.get('/', (req, res) => {
+    res.sendFile('./client/index.html')
+})
+app.use('/api', authRoutes)
+app.use('/api', imageRoutes)
+app.use('/api', userRoutes)
+
+
+app.listen(configs.serverPort, () => {
+    console.log(`listening port ${configs.serverPort}`);
+})
