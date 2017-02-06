@@ -35,7 +35,7 @@ angular.module('app.user', [
         let profilePromise = UserSevice.updateProfile(checkBoxValue)
         profilePromise.then(res => $scope.profileVisability = res)
     }
-    
+
     $scope.submit = function () {
         let imagesPromise = ImageService.loadImgs($scope.files)
         imagesPromise.then(res => {
@@ -59,7 +59,15 @@ angular.module('app.user', [
     $scope.closeAlert = function(index) {
         $scope.alerts.splice(index, 1);
     }
-    
+
+
+    $scope.addLike = function(imgId, index) {
+        ImageService.addLike(imgId, $stateParams.id)
+            .then(res => {
+                $scope.images[index]["likes"] = res.data.likes
+            })
+    }
+
     $scope.openModal = function (url) {
         let modalInstance = $uibModal.open({
             templateUrl: '../../src/templates/image-modal.html',
