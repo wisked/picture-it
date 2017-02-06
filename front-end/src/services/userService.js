@@ -5,8 +5,11 @@ angular.module('user.service', [])
 .factory('UserSevice', function($http) {
     const user = {};
 
-    user.updateProfile = function(profile) {
-        return $http.post('/api/set-userVisibility', {profile: profile})
+    user.updateProfile = function(profile, id) {
+        return $http.post('/api/set-userVisibility', {
+                profile: profile,
+                userId: id
+            })
             .then(response => response.data)
     }
     user.getUserList = function () {
