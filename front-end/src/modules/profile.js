@@ -59,7 +59,16 @@ angular.module('app.profile', [
     }
     $scope.closeAlert = function(index) {
         $scope.alerts.splice(index, 1);
-  }
+    }
+
+    $scope.addLike = function(imgId, index) {
+        ImageService.addLike(imgId, $stateParams.id)
+            .then(res => {
+                console.log($scope.images[index]["likes"]);
+                $scope.images[index]["likes"] = res.data.likes
+
+            })
+    }
 
     $scope.openModal = function (url) {
         let modalInstance = $uibModal.open({
