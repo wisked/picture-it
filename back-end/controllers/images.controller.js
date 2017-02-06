@@ -102,7 +102,8 @@ const loadImage = (img, id) => {
                         if (err) {
                             reject('mongodb err')
                         }
-                        resolve({public_id: result.public_id, url: result.url})
+                        let likes = response.likes.length ? response.likes.length : 0
+                        resolve({id: image._id, url: image.cloudinary.url, likes: likes})
                     })
                 }
                 else {
