@@ -42,7 +42,7 @@ angular.module('app.profile', [
         imagesPromise.then(res => {
 
             res.map(img => {
-                $scope.dynamic += parseInt(100 / res.length)
+                $scope.dynamic += parseFloat(100 / res.length)
                 $scope.images.unshift(img)
             })
         })
@@ -64,7 +64,6 @@ angular.module('app.profile', [
     $scope.addLike = function(imgId, index) {
         ImageService.addLike(imgId, $stateParams.id)
             .then(res => {
-                console.log($scope.images[index]["likes"]);
                 $scope.images[index]["likes"] = res.data.likes
 
             })

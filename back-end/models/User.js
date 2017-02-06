@@ -17,10 +17,10 @@ const UserSchema = new Schema({
 })
 
 UserSchema.methods.setPassword = function(password) {
-    this.local.hash = crypto.createHmac('sha256', secret).update(password).digest('hex');
+    this.local.hash = crypto.pbkdf2Sync(password, secret, 1000, 64).toString('hex');
 }
 UserSchema.methods.getHash = function(password) {
-    return crypto.createHmac('sha256', secret).update(password).digest('hex');
+    return this.local.hash === crypto.pbkdf2Sync(password, secret, 1000, 64).toString('hex');
 }
 UserSchema.methods.generateJwt = function() {
     return jwt.sign({
