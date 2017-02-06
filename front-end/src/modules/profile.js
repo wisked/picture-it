@@ -42,7 +42,7 @@ angular.module('app.profile', [
         imagesPromise.then(res => {
 
             res.map(img => {
-                $scope.dynamic += (100 / res.length).toFixed(0)
+                $scope.dynamic += parseFloat(100 / res.length)
                 $scope.images.unshift(img)
             })
         })
