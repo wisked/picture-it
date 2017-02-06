@@ -21,7 +21,8 @@ export const getUserImages = (req, res) => {
             picUrls = pic.map((item) => {
                 return {
                     id: item._id,
-                    url: item.cloudinary.url
+                    url: item.cloudinary.url,
+                    likes: item.likes.length
                 }
             })
             res.status(200).send(picUrls)
@@ -64,8 +65,27 @@ export const uploadImage = (req, res, next) => {
     }
 }
 
-export const getImageInfo = (req, res) => {
+export const addLike = (req, res) => {
+    let id = req.params.id ? req.params.id : req.session._id
 
+    Image.findById(req.body.image_id, (err, img) => {
+        if (err) {
+            return;
+        }
+        if (img.likes.indexOf(id) == -1) {
+            img.likes.push(id)
+        }
+        else {
+            let index = img.likes.indexOf(id)
+            img.likes.splice(index, 1)
+        }
+        img.save((err, response) => {
+            if (err) {
+                return;
+            }
+            res.status(201).send({likes: response.likes.length})
+        })
+    })
 }
 
 const loadImage = (img, id) => {
