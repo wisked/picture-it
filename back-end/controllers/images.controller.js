@@ -22,7 +22,7 @@ export const getUserImages = (req, res) => {
                 return {
                     id: item._id,
                     url: item.cloudinary.url,
-                    likes: item.likes.length
+                    likes: item.likes.length ? item.likes.length : 0
                 }
             })
             res.status(200).send(picUrls)
