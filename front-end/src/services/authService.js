@@ -39,6 +39,7 @@ export default angular.module('auth.service', [])
             window.localStorage['jwt'] = angular.toJson(res.data.token);
             callback()
         })
+        .catch(res => $rootScope.data = res.data)
     }
 
     auth.isAuthenticated = function () {
