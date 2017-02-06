@@ -26,6 +26,9 @@ angular.module('app.user', [
             $scope.images.push(img)
         })
     })
+    $scope.$watch('files', () => {
+        $scope.dynamic = 0
+    })
     let profilePromise = UserSevice.checkProfileVisability($stateParams.id)
     profilePromise.then(res => $scope.profileVisability = res.profile)
 
@@ -36,10 +39,10 @@ angular.module('app.user', [
 
     $scope.submit = function () {
         let imagesPromise = ImageService.loadImgs($scope.files, $stateParams.id)
-        console.log($scope.files);
         imagesPromise.then(res => {
+
             res.map(img => {
-                $scope.dynamic += parseInt(100 / res.length)
+                $scope.dynamic += parseFloat(100 / res.length)
                 $scope.images.unshift(img)
             })
         })
