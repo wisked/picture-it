@@ -34,10 +34,10 @@ angular.module('img.service', [
         });
     }
 
-    img.addLike = function (user_id) {
+    img.addLike = function (image_id, user_id) {
         let userId = user_id ? user_id : ''
         return $http.post('/api/add-like/' + userId, {
-            id: user_id
+            image_id: image_id
         })
 
     }
