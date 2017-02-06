@@ -46,19 +46,21 @@ module.exports.setUserVisibility = (req, res) => {
     })
 }
 module.exports.checkProfileVisability = (req, res) => {
-    let id = req.query.userId ? req.query.userId : req.session._id
-
-    User.findOne({
-        _id: id
-    }, (err, user) => {
-        if(err) {
-            console.log(err);
-            return;
-        }
-        else {
-            res.send({profile: user.profileIsVisible})
-        }
-    })
+    let id = req.params.id ? req.params.id : req.session._id
+    
+    if (req.params.id & req.session.user.isAdmin || req.session._id) {
+        User.findOne({
+            _id: id
+        }, (err, user) => {
+            if(err) {
+                console.log(err);
+                return;
+            }
+            else {
+                res.send({profile: user.profileIsVisible})
+            }
+        })
+    }
 }
 
 module.exports.getUserName = (req, res) => {
