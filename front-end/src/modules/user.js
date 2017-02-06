@@ -18,7 +18,6 @@ angular.module('app.user', [
     $scope.images = []
     $scope.alerts = [];
     $scope.max = 100
-    $scope.dynamic = 0
     $scope.isAdmin = $rootScope.user.isAdmin
 
     let getImagesPromise = ImageService.getImgs()
@@ -27,20 +26,20 @@ angular.module('app.user', [
             $scope.images.push(img)
         })
     })
-
     let profilePromise = UserSevice.checkProfileVisability($stateParams.id)
     profilePromise.then(res => $scope.profileVisability = res.profile)
 
     $scope.changeProfile = function (checkBoxValue) {
-        let profilePromise = UserSevice.updateProfile(checkBoxValue)
+        let profilePromise = UserSevice.updateProfile(checkBoxValue, $stateParams.id)
         profilePromise.then(res => $scope.profileVisability = res)
     }
 
     $scope.submit = function () {
-        let imagesPromise = ImageService.loadImgs($scope.files)
+        let imagesPromise = ImageService.loadImgs($scope.files, $stateParams.id)
+        console.log($scope.files);
         imagesPromise.then(res => {
             res.map(img => {
-                $scope.dynamic += parseFloat(100 / res.length)
+                $scope.dynamic += parseInt(100 / res.length)
                 $scope.images.unshift(img)
             })
         })
