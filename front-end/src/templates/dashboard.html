@@ -1,0 +1,6 @@
+<div class="user-list-container">
+    <h4><em>List of user</em></h4>
+    <ul ng-repeat="user in userList" class="user-list">
+        <li><a ui-sref="user({id: user._id})"><h4>{{user.name}}</h4><a></li>
+    </ul>
+</div>

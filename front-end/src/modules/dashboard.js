@@ -3,11 +3,11 @@ import  angularUiBootstrap from 'angular-ui-bootstrap';
 
 import '../services/userService'
 
-angular.module('app.home', [
+angular.module('app.dashboard', [
     angularUiBootstrap,
     'user.service'
 ])
-.controller('homeCtrl', function($scope, $rootScope, UserSevice) {
+.controller('dashboardCtrl', function($scope, $rootScope, UserSevice) {
     let userPromise = UserSevice.getUserList()
     userPromise.then(res => $scope.userList = res);
 

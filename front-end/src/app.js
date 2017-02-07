@@ -3,7 +3,7 @@ import uiRouter from 'angular-ui-router';
 
 
 import './modules/auth';
-import './modules/home';
+import './modules/dashboard';
 import './modules/user'
 import './modules/profile'
 
@@ -14,7 +14,7 @@ import './app.config';
 angular.module('imgStore', [
     'app.config',
     'app.auth',
-    'app.home',
+    'app.dashboard',
     'app.user',
     'app.profile',
     'auth.service',
