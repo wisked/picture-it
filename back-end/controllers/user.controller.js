@@ -49,20 +49,21 @@ module.exports.setUserVisibility = (req, res) => {
     }
 }
 module.exports.checkProfileVisability = (req, res) => {
-    let id = req.params.id ? req.params.id : req.session._id
-
-    if (req.params.id & req.session.user.isAdmin || req.session._id) {
-        User.findOne({
-            _id: id
-        }, (err, user) => {
-            if(err) {
-                console.log(err);
-                return;
-            }
-            else {
-                res.send({profile: user.profileIsVisible})
-            }
-        })
+    if (req.session._id) {
+        let id = req.params.id ? req.params.id : req.session._id
+        if (req.params.id & req.session.user.isAdmin || req.session._id) {
+            User.findOne({
+                _id: id
+            }, (err, user) => {
+                if(err) {
+                    console.log(err);
+                    return;
+                }
+                else {
+                    res.send({profile: user.profileIsVisible})
+                }
+            })
+        }
     }
 }
 
