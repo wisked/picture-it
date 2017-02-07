@@ -4,7 +4,7 @@ const User = mongoose.model('User');
 
 
 module.exports.getUsersList = (req, res) => {
-    let userIsAdmin = req.session.user.isAdmin;
+    let userIsAdmin = req.session._id ? req.session.user.isAdmin : null;
     let query = {};
     let profile = {
         "profileIsVisible": true
