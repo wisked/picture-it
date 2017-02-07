@@ -6,14 +6,14 @@ export default angular.module('app.config', [
 ])
 
 .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
-        $urlRouterProvider.otherwise('/home');
+        $urlRouterProvider.otherwise('/ddashboard');
 
     $stateProvider
-        .state('home', {
-            url: '/home',
-            templateUrl: '/src/templates/home.html',
-            controller: 'homeCtrl',
-            authenticate: true
+        .state('dashboard', {
+            url: '/dashboard',
+            templateUrl: '/src/templates/dashboard.html',
+            controller: 'dashboardCtrl',
+            authenticate: false
         })
         .state('profile', {
             url: '/profile',
@@ -37,7 +37,7 @@ export default angular.module('app.config', [
             url: '/user/{id}',
             templateUrl: '/src/templates/user.html',
             controller: 'userCtrl',
-            authenticate: true
+            authenticate: false
         })
         .state('image', {
             url: '/image/{img}',

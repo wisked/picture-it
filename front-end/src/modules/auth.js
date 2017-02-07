@@ -11,13 +11,13 @@ angular.module('app.auth', [
 .controller('authCtrl', function($scope, AuthService, $state) {
     $scope.login = function () {
         AuthService.login($scope.username, $scope.password, function () {
-            $state.transitionTo('home')
+            $state.transitionTo('dashboard')
         })
     }
 
     $scope.register = function () {
         AuthService.register($scope.email, $scope.username, $scope.password, function() {
-            $state.transitionTo("home")
+            $state.transitionTo("dashboard")
         })
     }
 
