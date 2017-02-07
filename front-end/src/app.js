@@ -38,10 +38,12 @@ angular.module('imgStore', [
     if ($scope.authenticated) {
         AuthService.getUserName()
     }
-    $scope.logout = function () {
-        AuthService.logout()
+
+    $scope.logout = function() {
         $scope.authenticated = false
-        $state.transitionTo('login')
+        AuthService.logout(function () {
+            $state.transitionTo('login')
+        });
     }
 
     $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
