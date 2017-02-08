@@ -24,6 +24,12 @@ angular.module('imgStore', [
 .run(['$rootScope', '$state', '$stateParams', 'AuthService',
     function ($rootScope, $state, $stateParams, AuthService) {
         $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
+            if ($rootScope.user.hasOwnProperty("name")) {
+                $rootScope.authenticated = true
+            }
+            else
+                $rootScope.authenticated = false
+
             if (toState.authenticate && !AuthService.isAuthenticated()) {
                 // User isn’t authenticated
                 event.preventDefault();
