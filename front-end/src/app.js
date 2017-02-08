@@ -50,3 +50,9 @@ angular.module('imgStore', [
         $scope.authenticated = AuthService.isAuthenticated();
     });
 })
+.directive('navBar', function () {
+    return {
+        templateUrl: './src/templates/nav-bar.html',
+        restrict: 'AE'
+    }
+})
