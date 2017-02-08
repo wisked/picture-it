@@ -6,7 +6,7 @@ export default angular.module('app.config', [
 ])
 
 .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
-        $urlRouterProvider.otherwise('/ddashboard');
+        $urlRouterProvider.otherwise('/dashboard');
 
     $stateProvider
         .state('dashboard', {
