@@ -149,3 +149,18 @@ body {
 .filter-field {
     width: 40%;
 }
+
+/*
+    delete img button
+*/
+
+.delete-image {
+    color: rgb(255, 23, 23);
+}
+.delete-image:hover{
+    color: rgba(241, 4, 4, .8);
+}
+
+.add-like {
+    padding-left: : .5em;
+}

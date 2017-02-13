@@ -10,5 +10,4 @@ angular.module('app.dashboard', [
 .controller('dashboardCtrl', function($scope, $rootScope, UserSevice) {
     let userPromise = UserSevice.getUserList()
     userPromise.then(res => $scope.userList = res);
-
 })

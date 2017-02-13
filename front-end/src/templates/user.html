@@ -6,7 +6,6 @@
                 <h3>Profile is visible {{profileVisability}}</h3>
                 <input type="checkbox" name="profile" ng-model="profileVisability" ng-change="changeProfile(profileVisability)">
                 <br>
-                <!-- <button type="button" class="btn btn-default btn-sm" ng-click="addItem()">Add Item</button> -->
             </div>
 
         </uib-accordion>
@@ -25,17 +24,24 @@
             <span style="color:white; white-space:nowrap;">{{dynamic}} / {{max}}</span>
         </uib-progressbar>
     </div>
+
     <div class="products gallery">
-        <div ng-repeat="src in images track by $index">
-            <figure >
-                <a ng-click="openModal(src.url)">
-                    <img ng-src="{{src.url}}" ng-click="openModal(src.url)"/>fdsdf
-                </a>
-            </figure>
-            <figcaption>
-                <a ng-click="openModal(src.url)" class="btn">fdf</a>
-            </figcaption>
+        <div ng-repeat="img in images">
+            <a ng-click="openModal(img)">
+                <figure>
+                    <img ng-src="{{img.url}}"/>
+                    <!-- <figcaption><span class="glyphicon glyphicon-thumbs-up"> {{img.likes}}</span></figcaption> -->
+                </figure>
+            </a>
+                <!-- <a ui-sref="image({img: src.url})"><a>
+                <figcaption>
+                    <a  ng-click="openModal(src.url)" class="btn btn-primary">modal</a>
+                    <a ng-click="deleteImg(src.id)" class="btn btn-danger">delete</a>
+                    <a ng-click="addLike(src.id, $index)" class="btn btn-success">
+                        <span class="glyphicon glyphicon-thumbs-up"></span> Like {{src.likes}}</a>
+                </figcaption> -->
         </div>
+
 
     </div>
 </div>

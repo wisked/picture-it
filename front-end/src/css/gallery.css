@@ -109,7 +109,7 @@ body {
 }
 
 .products.gallery figure:hover::after {
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.2);
 }
 
 .products.gallery figure:hover figcaption {
@@ -140,4 +140,27 @@ body {
 .products.list figure figcaption {
     padding: 20px;
     line-height: 1.4;
+}
+
+/*
+    image modal
+*/
+.modal-img figure{
+	display: inline-block;
+	margin: 15px;
+	position: relative;
+}
+.modal-img figcaption{
+	position: absolute;
+	top: 1%;
+	bottom: 15%;
+	right: 0;
+	left: 96%;
+	padding: 10px;
+	font-family: Tittllium, Arial, sans-serif;
+	font-size: .9em;
+	opacity: 0;
+}
+.modal-img figure:hover figcaption{
+	opacity: 1;
 }
