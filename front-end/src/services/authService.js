@@ -28,10 +28,6 @@ export default angular.module('auth.service', [])
             password: password
         })
         .then(res => {
-            auth.user = res.user;
-            auth.user = {
-                userIsAdmin: res.data.userIsAdmin
-            }
             $rootScope.user = {
                 isAdmin: angular.toJson(res.data.isAdmin),
                 name: angular.toJson(res.data.name)

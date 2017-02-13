@@ -1,9 +1,16 @@
 <div>
-    <figure>
-        <img ng-src="{{url}}" class="img-modal"/>
-    </figure>
-
-    <div>
-        likes comments
+    <div class="modal-img">
+        <figure>
+            <img ng-src="{{img.url}}" class="img-modal"/>
+            <figcaption ng-if="user.isAdmin" ng-model=user.isAdmin>
+                <a ng-click="deleteImg()" class="delete-image">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </a>
+            </figcaption>
+        </figure>
+    </div>
+    <div ng-show="alert.msg" uib-alert ng-class="'alert-' + (alert.type || 'warning')">{{alert.msg}}</div>
+    <div class="add-like" ng-if="user.isAdmin" ng-model=user.isAdmin>
+        <!-- <a ng-click="addLike()" class="btn btn-success"><span class="glyphicon glyphicon-thumbs-up"> {{img.likes}}</span></a> -->
     </div>
 </div>

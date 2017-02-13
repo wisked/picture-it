@@ -16,7 +16,6 @@ angular.module('app.user', [
 .controller('userCtrl', function ($scope, $rootScope, UserSevice, $stateParams, ImageService, $uibModal) {
     $scope.header = "Edit profile"
     $scope.images = []
-    $scope.alerts = [];
     $scope.max = 100
     $scope.isAdmin = $rootScope.user.isAdmin
 
@@ -26,9 +25,18 @@ angular.module('app.user', [
             $scope.images.push(img)
         })
     })
+
     $scope.$watch('files', () => {
         $scope.dynamic = 0
     })
+
+    $scope.$on('$stateChangeStart', () => {
+        let getImagesPromise = ImageService.getImgs($stateParams.id)
+        getImagesPromise.then(res => {
+            $scope.images = res.data
+        })
+    })
+
     let profilePromise = UserSevice.checkProfileVisability($stateParams.id)
     profilePromise.then(res => $scope.profileVisability = res.profile)
 
@@ -43,6 +51,7 @@ angular.module('app.user', [
 
             res.map(img => {
                 $scope.dynamic += parseFloat(100 / res.length)
+                $scope.dynamic = $scope.dynamic > 100 ? 100 : $scope.dynamic
                 $scope.images.unshift(img)
             })
         })
@@ -52,7 +61,7 @@ angular.module('app.user', [
         let deleteImgPromise = ImageService.deleteImage(id, $stateParams.id)
         deleteImgPromise.then(res => {
             $scope.images = $scope.images.filter(item => item.id != id)
-            $scope.alerts.push(
+            $rootScope.alerts.push(
                 { type: 'danger', msg: 'Image was deleted' }
             )
         })
@@ -63,18 +72,43 @@ angular.module('app.user', [
     }
 
 
-    $scope.addLike = function(imgId, index) {
-        ImageService.addLike(imgId, $stateParams.id)
-            .then(res => {
-                $scope.images[index]["likes"] = res.data.likes
-            })
-    }
+    // $scope.addLike = function(imgId, index) {
+    //     ImageService.addLike(imgId, $stateParams.id)
+    //         .then(res => {
+    //             $scope.images[index]["likes"] = res.data.likes
+    //         })
+    // }
 
-    $scope.openModal = function (url) {
+    $scope.openModal = function (img) {
         let modalInstance = $uibModal.open({
             templateUrl: '../../src/templates/image-modal.html',
-            controller: function($scope) {
-                $scope.url = url
+
+            controller: function($scope, $state, $stateParams) {
+                $scope.img = img
+                $scope.addLike = function(imgId, index) {
+                    ImageService.addLike(imgId, $stateParams.id)
+                        .then(res => {
+                            $scope.images[index]["likes"] = res.data.likes
+                        })
+                }
+
+                $scope.deleteImg = function () {
+                    let deleteImgPromise = ImageService.deleteImage(img.id, $stateParams.id)
+                    deleteImgPromise.then(res => {
+                        if (res.status === 200) {
+                            $rootScope.alert = { type: 'danger', msg: 'Image was deleted' }
+
+                            setTimeout(function() {
+                                modalInstance.close()
+                                $rootScope.alert = {}
+                                $state.transitionTo($state.current, $stateParams, {
+                                    reload: true, inherit: false, notify: true
+                                });
+                            }, 2000)
+                        }
+
+                    })
+                }
             },
             size: 'lg'
         })
