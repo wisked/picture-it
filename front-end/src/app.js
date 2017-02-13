@@ -53,8 +53,16 @@ angular.module('imgStore', [
     }
 
     $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
+        // resultCompareJWT()
         $scope.authenticated = AuthService.isAuthenticated();
     });
+
+    // TODO: realised compareJWT
+    // function resultCompareJWT () {
+    //     let promise = AuthService.compareJWT()
+    //     promise.then(res => console.log(res))
+    // }
+
 })
 .directive('navBar', function () {
     return {

@@ -54,5 +54,8 @@ export default angular.module('auth.service', [])
             .then(res => $rootScope.user = res.data)
     }
 
+    // auth.compareJWT = function () {
+    //     return $http.get('/api/compare-jwt', {params: {jwt: window.localStorage.getItem('jwt')}})
+    // }
     return auth;
 })

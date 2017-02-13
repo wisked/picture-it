@@ -93,3 +93,14 @@ export const logout = (req, res) => {
     req.session = null
     res.sendStatus(200)
 }
+
+// export const compareJWT = (req, res) => {
+//     if (req.session.hasOwnProperty('token')) {
+//         if (req.session.token.toString() == req.query.jwt.toString()) {
+//             res.status(200).send(true)
+//         }
+//     }
+//     else
+//         res.status(200).send(false)
+//
+// }
