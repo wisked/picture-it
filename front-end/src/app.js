@@ -24,6 +24,12 @@ angular.module('imgStore', [
 .run(['$rootScope', '$state', '$stateParams', 'AuthService',
     function ($rootScope, $state, $stateParams, AuthService) {
         $rootScope.$on("$stateChangeStart", function (event, toState, toParams, fromState, fromParams) {
+            if ($rootScope.user.hasOwnProperty("name")) {
+                $rootScope.authenticated = true
+            }
+            else
+                $rootScope.authenticated = false
+
             if (toState.authenticate && !AuthService.isAuthenticated()) {
                 // User isn’t authenticated
                 event.preventDefault();
@@ -38,13 +44,21 @@ angular.module('imgStore', [
     if ($scope.authenticated) {
         AuthService.getUserName()
     }
-    $scope.logout = function () {
-        AuthService.logout()
+
+    $scope.logout = function() {
         $scope.authenticated = false
-        $state.transitionTo('login')
+        AuthService.logout(function () {
+            $state.transitionTo('login')
+        });
     }
 
     $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
         $scope.authenticated = AuthService.isAuthenticated();
     });
+})
+.directive('navBar', function () {
+    return {
+        templateUrl: './src/templates/nav-bar.html',
+        restrict: 'AE'
+    }
 })

@@ -37,8 +37,8 @@ angular.module('app.user', [
         profilePromise.then(res => $scope.profileVisability = res)
     }
 
-    $scope.submit = function () {
-        let imagesPromise = ImageService.loadImgs($scope.files, $stateParams.id)
+    $scope.submit = function (files) {
+        let imagesPromise = ImageService.loadImgs(files, $stateParams.id)
         imagesPromise.then(res => {
 
             res.map(img => {

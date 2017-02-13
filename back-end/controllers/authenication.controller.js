@@ -13,21 +13,6 @@ const createAdmin = (req, res) => {
         if (err) {
             return;
         }
-        else {
-            let token;
-            token = user.generateJwt();
-            req.session._id = response._doc._id;
-            req.session.user = {
-                isAdmin: user._doc.isAdmin,
-                username: user._doc.local.username
-            }
-            req.session.token = token;
-            res.status(201).json({
-                "token": token,
-                "userIsAdmin": user.isAdmin,
-                "name": user.local.username
-            })
-        }
     });
 }
 

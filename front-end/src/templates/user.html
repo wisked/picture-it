@@ -1,5 +1,5 @@
 <div>
-    <div ng-if="isAdmin">
+    <div ng-if="isAdmin" ng-model=isAdmin>
         <uib-accordion close-others="oneAtATime">
 
             <div uib-accordion-group class="panel-default" heading="{{header}}">
@@ -18,7 +18,7 @@
                 </div>
             </div>
             <!-- <button type="submit" ng-click="submit()"></button> -->
-            <button ng-disabled="!files" type="button" class="btn btn-primary" ng-click="submit()">submit</button>
+            <button ng-disabled="!files" type="button" class="btn btn-primary" ng-click="submit(files)">submit</button>
         </form>
         <br>
         <uib-progressbar max="max" value="dynamic" ng-if="files">
@@ -26,15 +26,16 @@
         </uib-progressbar>
     </div>
     <div class="products gallery">
-        <figure ng-repeat="src in images track by $index">
-                <a ui-sref="image({img: src.url})"><img ng-src="{{src.url}}"/><a>
-                <figcaption>
-                    <a  ng-click="openModal(src.url)" class="btn btn-primary">modal</a>
-                    <a ng-click="deleteImg(src.id)" class="btn btn-danger" ng-if="isAdmin">delete</a>
-                    <a ng-click="addLike(src.id, $index)" class="btn btn-success">
-                        <span class="glyphicon glyphicon-thumbs-up"></span> Like {{src.likes}}</a>
-                </figcaption>
-        </figure>
+        <div ng-repeat="src in images track by $index">
+            <figure >
+                <a ng-click="openModal(src.url)">
+                    <img ng-src="{{src.url}}" ng-click="openModal(src.url)"/>fdsdf
+                </a>
+            </figure>
+            <figcaption>
+                <a ng-click="openModal(src.url)" class="btn">fdf</a>
+            </figcaption>
+        </div>
 
     </div>
 </div>
