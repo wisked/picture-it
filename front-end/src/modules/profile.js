@@ -19,8 +19,8 @@ angular.module('app.profile', [
     $scope.alerts = [];
     $scope.max = 100
 
-    // let profilePromise = UserSevice.checkProfileVisability()
-    // profilePromise.then(res => $scope.profileVisability = res.profile)
+    let profilePromise = UserSevice.checkProfileVisability()
+    profilePromise.then(res => $scope.profileVisability = res.profile)
 
     let getImagesPromise = ImageService.getImgs()
     getImagesPromise.then(res => {
