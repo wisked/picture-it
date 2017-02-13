@@ -78,7 +78,7 @@ export const login = (req, res) => {
                 req.session.token = token;
                 res.status(200).json({
                     "token": token,
-                    "userIsAdmin": user._doc.isAdmin,
+                    "isAdmin": user._doc.isAdmin,
                     "name": user._doc.local.username
                 })
             }
